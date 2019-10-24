@@ -2,6 +2,7 @@ package be.mc.funfrench.digibooky.war;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(scanBasePackages = "be.mc.funfrench.digibooky")
 public class Application {
