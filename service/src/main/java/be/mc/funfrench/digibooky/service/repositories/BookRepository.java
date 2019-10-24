@@ -1,4 +1,4 @@
-package be.mc.funfrench.digibooky.service;
+package be.mc.funfrench.digibooky.service.repositories;
 
 
 import be.mc.funfrench.digibooky.domain.Book;
@@ -14,7 +14,7 @@ public class BookRepository {
         this.booksByIsbn = new ConcurrentHashMap<>();
     }
 
-    public Collection<Book> getAllBooks(){
+    public Collection<Book> findAll(){
         return booksByIsbn.values();
     }
 }
