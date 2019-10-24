@@ -39,13 +39,13 @@ public class Book {
         private String authorFirstName;
         private String title;
 
-        private BookBuilder(){}
+        public BookBuilder(){}
 
         public static BookBuilder bookBuilder(){
             return new BookBuilder();
         }
 
-        Book build(){
+        public Book build(){
             return new Book(this);
         }
 
