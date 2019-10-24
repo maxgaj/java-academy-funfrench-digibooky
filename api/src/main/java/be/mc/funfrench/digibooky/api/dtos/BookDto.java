@@ -2,17 +2,17 @@ package be.mc.funfrench.digibooky.api.dtos;
 
 public class BookDto {
 
-    private String isbn;
+    private String isbn13;
     private String authorLastName;
     private String authorFirstName;
     private String title;
 
-    public String getIsbn() {
-        return isbn;
+    public String getIsbn13() {
+        return isbn13;
     }
 
-    public BookDto withIsbn(String isbn) {
-        this.isbn = isbn;
+    public BookDto withIsbn13(String isbn13) {
+        this.isbn13 = isbn13;
         return this;
     }
 

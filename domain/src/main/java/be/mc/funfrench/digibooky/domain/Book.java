@@ -2,20 +2,20 @@ package be.mc.funfrench.digibooky.domain;
 
 public class Book {
 
-    private final String isbn;
+    private final String isbn13;
     private final String authorLastName;
     private final String authorFirstName;
     private final String title;
 
     private Book(BookBuilder bookbuilder) {
-        this.isbn = bookbuilder.isbn;
+        this.isbn13 = bookbuilder.isbn13;
         this.authorLastName = bookbuilder.authorLastName;
         this.authorFirstName = bookbuilder.authorFirstName;
         this.title = bookbuilder.title;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public String getIsbn13() {
+        return isbn13;
     }
 
     public String getAuthorLastName() {
@@ -34,7 +34,7 @@ public class Book {
 
     public static class BookBuilder {
 
-        private String isbn;
+        private String isbn13;
         private String authorLastName;
         private String authorFirstName;
         private String title;
@@ -49,8 +49,8 @@ public class Book {
             return new Book(this);
         }
 
-        public BookBuilder withIsbn(String isbn) {
-            this.isbn = isbn;
+        public BookBuilder withIsbn13(String isbn13) {
+            this.isbn13 = isbn13;
             return this;
         }
 

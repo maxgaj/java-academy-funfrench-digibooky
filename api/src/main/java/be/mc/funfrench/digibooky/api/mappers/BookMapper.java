@@ -9,7 +9,7 @@ public class BookMapper {
 
     public Book toBook(BookDto bookDto){
         return new Book.BookBuilder()
-                .withIsbn(bookDto.getIsbn())
+                .withIsbn13(bookDto.getIsbn13())
                 .withAuthorFirstName(bookDto.getAuthorFirstName())
                 .withAuthorLastName(bookDto.getAuthorLastName())
                 .withTitle(bookDto.getTitle())
@@ -18,7 +18,7 @@ public class BookMapper {
 
     public BookDto toBookDto(Book book){
         return new BookDto()
-                .withIsbn(book.getIsbn())
+                .withIsbn13(book.getIsbn13())
                 .withAuthorFirstName(book.getAuthorFirstName())
                 .withAuthorLastName(book.getAuthorLastName())
                 .withTitle(book.getTitle());
