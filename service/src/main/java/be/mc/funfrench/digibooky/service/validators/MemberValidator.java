@@ -1,6 +1,7 @@
-package be.mc.funfrench.digibooky.service.repositories;
+package be.mc.funfrench.digibooky.service.validators;
 
 import be.mc.funfrench.digibooky.domain.Member;
+import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +19,12 @@ public class MemberValidator {
     public boolean validate(Member member) {
         hasLastName(member);
         hasCity(member);
+        hasInss(member);
+        hasEmail(member);
         hasValidEmail(member);
         hasUniqueEmail(member);
         hasUniqueId(member);
-        hasUniqueINSS(member);
+        hasUniqueInss(member);
         return true;
     }
 
@@ -44,8 +47,20 @@ public class MemberValidator {
             throw new IllegalArgumentException("Member should have a last name");
         }
     }
+
+    private void hasInss(Member member){
+        if (member.getInss()==null || member.getInss().isEmpty()){
+            throw new IllegalArgumentException("Member should have an INSS number");
+        }
+    }
+
+    private void hasEmail(Member member){
+        if (member.getEmail()==null || member.getEmail().isEmpty()){
+            throw new IllegalArgumentException("Member should have an INSS number");
+        }
+    }
     
-    private void hasUniqueINSS(Member member){
+    private void hasUniqueInss(Member member){
         if (!memberRepository.isINSSUnique(member.getInss())){
             throw new IllegalArgumentException("The INSS should be unique");
         }

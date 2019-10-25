@@ -9,8 +9,8 @@ public class Member {
     private String firstname;
     private String email;
     private String streetName;
-    private int streetNumber;
-    private int postalCode;
+    private String streetNumber;
+    private String postalCode;
     private String city;
 
     private Member(MemberBuilder memberBuilder) {
@@ -37,11 +37,11 @@ public class Member {
         return streetName;
     }
 
-    public int getStreetNumber() {
+    public String getStreetNumber() {
         return streetNumber;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
@@ -67,8 +67,8 @@ public class Member {
         private String firstname;
         private String email;
         private String streetName;
-        private int streetNumber;
-        private int postalCode;
+        private String streetNumber;
+        private String postalCode;
         private String city;
 
         private MemberBuilder() {
@@ -78,17 +78,9 @@ public class Member {
             return new Member(this);
         }
 
-        public String getInss() {
-            return inss;
-        }
-
         public MemberBuilder withInss(String INSS) {
             this.inss = INSS;
             return this;
-        }
-
-        public String getLastname() {
-            return lastname;
         }
 
         public MemberBuilder withLastname(String lastname) {
@@ -96,17 +88,9 @@ public class Member {
             return this;
         }
 
-        public String getFirstname() {
-            return firstname;
-        }
-
         public MemberBuilder withFirstname(String firstname) {
             this.firstname = firstname;
             return this;
-        }
-
-        public String getEmail() {
-            return email;
         }
 
         public MemberBuilder withEmail(String email) {
@@ -114,35 +98,19 @@ public class Member {
             return this;
         }
 
-        public String getStreetName() {
-            return streetName;
-        }
-
         public MemberBuilder withStreetName(String streetName) {
             this.streetName = streetName;
             return this;
         }
 
-        public int getStreetNumber() {
-            return streetNumber;
-        }
-
-        public MemberBuilder withStreetNumber(int streetNumber) {
+        public MemberBuilder withStreetNumber(String streetNumber) {
             this.streetNumber = streetNumber;
             return this;
         }
 
-        public int getPostalCode() {
-            return postalCode;
-        }
-
-        public MemberBuilder withPostalCode(int postalCode) {
+        public MemberBuilder withPostalCode(String postalCode) {
             this.postalCode = postalCode;
             return this;
-        }
-
-        public String getCity() {
-            return city;
         }
 
         public MemberBuilder withCity(String city) {

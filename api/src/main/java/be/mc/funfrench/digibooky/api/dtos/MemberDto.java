@@ -7,8 +7,8 @@ public class MemberDto {
     private String firstname;
     private String email;
     private String streetName;
-    private int streetNumber;
-    private int postalCode;
+    private String streetNumber;
+    private String postalCode;
     private String city;
 
     public String getId() {
@@ -65,20 +65,20 @@ public class MemberDto {
         return this;
     }
 
-    public int getStreetNumber() {
+    public String getStreetNumber() {
         return streetNumber;
     }
 
-    public MemberDto withStreetNumber(int streetNumber) {
+    public MemberDto withStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
         return this;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public MemberDto withPostalCode(int postalCode) {
+    public MemberDto withPostalCode(String postalCode) {
         this.postalCode = postalCode;
         return this;
     }

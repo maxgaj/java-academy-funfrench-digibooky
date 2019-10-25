@@ -5,7 +5,7 @@ import be.mc.funfrench.digibooky.api.dtos.MemberDto;
 import be.mc.funfrench.digibooky.api.mappers.MemberMapper;
 import be.mc.funfrench.digibooky.domain.Member;
 import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
-import be.mc.funfrench.digibooky.service.repositories.MemberValidator;
+import be.mc.funfrench.digibooky.service.validators.MemberValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

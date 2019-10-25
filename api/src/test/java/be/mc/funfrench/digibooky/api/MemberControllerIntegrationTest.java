@@ -1,6 +1,8 @@
 package be.mc.funfrench.digibooky.api;//package be.mc.funfrench.digibooky.api;
 
+import be.mc.funfrench.digibooky.api.dtos.MemberDto;
 import io.restassured.RestAssured;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,22 +25,25 @@ class MemberControllerIntegrationTest {
                 "\t\"inss\": \"1\",\n" +
                 "\t\"email\": \"maxime.gaj@gmail.com\",\n" +
                 "\t\"streetName\": \"jio\",\n" +
-                "\t\"streetNumber\": 12,\n" +
-                "\t\"postalCode\": 4000,\n" +
+                "\t\"streetNumber\": \"12\",\n" +
+                "\t\"postalCode\": \"4000\",\n" +
                 "\t\"city\": \"Liège\""+
                 "}";;
 
-        RestAssured
+        MemberDto memberDto = RestAssured
                 .given()
                 .baseUri("http://localhost")
                 .header("Content-Type", "application/json")
                 .port(PORT)
                 .body(payload)
                 .when()
-                .port(PORT)
                 .post("/members")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.CREATED.value());
+                .statusCode(HttpStatus.CREATED.value())
+                .extract().as(MemberDto.class);
+        
+        Assertions.assertThat(memberDto.getFirstname()).isEqualTo("firstname");
+        ;
     }
 }

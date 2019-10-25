@@ -17,8 +17,8 @@ class MemberMapperTest {
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
-                .withStreetNumber(12)
-                .withPostalCode(4000)
+                .withStreetNumber("12")
+                .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
         MemberMapper memberMapper = new MemberMapper();
@@ -45,8 +45,8 @@ class MemberMapperTest {
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
-                .withStreetNumber(12)
-                .withPostalCode(4000)
+                .withStreetNumber("12")
+                .withPostalCode("4000")
                 .withCity("Liège");
         MemberMapper memberMapper = new MemberMapper();
         //WHEN
