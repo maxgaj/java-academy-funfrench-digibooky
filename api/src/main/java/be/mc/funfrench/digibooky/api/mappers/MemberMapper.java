@@ -2,7 +2,7 @@ package be.mc.funfrench.digibooky.api.mappers;
 
 import be.mc.funfrench.digibooky.api.dtos.CreateMemberDto;
 import be.mc.funfrench.digibooky.api.dtos.MemberDto;
-import be.mc.funfrench.digibooky.domain.Member;
+import be.mc.funfrench.digibooky.domain.users.Member;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +11,6 @@ public class MemberMapper {
     public MemberDto mapToDto(Member member) {
         return new MemberDto().withFirstname(member.getFirstname())
                 .withLastname(member.getLastname())
-                .withInss(member.getInss())
                 .withEmail(member.getEmail())
                 .withId(member.getId())
                 .withStreetName(member.getStreetName())
