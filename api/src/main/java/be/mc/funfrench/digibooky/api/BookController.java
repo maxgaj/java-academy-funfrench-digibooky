@@ -33,15 +33,15 @@ public class BookController {
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooks(@RequestParam(required = false) String isbn, @RequestParam(required = false) String title) {
-        if(isbn != null && title != null){
-            return bookRepository.findByTitle(title).stream()
-                    .filter(book -> book.getIsbn13().matches(isbn))
-                    .map(bookMapper::toBookDto)
-                    .collect(Collectors.toList());
-        }
+//        if(isbn != null && title != null){
+//            return bookRepository.findByTitle(title).stream()
+//                    .filter(book -> book.getIsbn13().matches(isbn))
+//                    .map(bookMapper::toBookDto)
+//                    .collect(Collectors.toList());
+//        }
         if (isbn != null) {
-            return bookRepository.findAll().stream()
-                    .filter(book -> book.getIsbn13().matches(isbn))
+            return bookRepository.findByIsbn(isbn)
+                    .stream()
                     .map(bookMapper::toBookDto)
                     .collect(Collectors.toList());
         }
