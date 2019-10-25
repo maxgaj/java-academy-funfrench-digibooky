@@ -18,7 +18,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(path = "/books")
-@ComponentScan("be.mc.funfrench.digibooky")
 public class BookController {
 
     private final BookRepository bookRepository;
