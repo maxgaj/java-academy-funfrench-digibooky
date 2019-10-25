@@ -91,7 +91,8 @@
                 <exclusions>
                     <exclusion>
                         <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy</artifactId> <!-- Pulls in version 2.5.8 which has a an illegal reflective access operation as of Java 9+ -->
+                        <artifactId>groovy
+                        </artifactId> <!-- Pulls in version 2.5.8 which has a an illegal reflective access operation as of Java 9+ -->
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -106,7 +107,14 @@
                 <version>${rest-assured.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!-- Regex Converter start -->
+            <dependency>
+                <groupId>com.yevdo</groupId>
+                <artifactId>jwildcard</artifactId>
+                <version>1.4</version>
+            </dependency>
         </dependencies>
+        <!-- Regex Converter end -->
     </dependencyManagement>
 
     <build>
