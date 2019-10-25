@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Member {
     private UUID id;
-    private String INSS;
+    private String inss;
     private String lastname;
     private String firstname;
     private String email;
@@ -15,7 +15,7 @@ public class Member {
 
     private Member(MemberBuilder memberBuilder) {
         this.id = UUID.randomUUID();
-        this.INSS = memberBuilder.INSS;
+        this.inss = memberBuilder.inss;
         this.lastname = memberBuilder.lastname;
         this.firstname = memberBuilder.firstname;
         this.email = memberBuilder.email;
@@ -53,8 +53,8 @@ public class Member {
         return this.id.toString();
     }
 
-    public String getINSS() {
-        return this.INSS;
+    public String getInss() {
+        return this.inss;
     }
 
     public String getEmail() {
@@ -62,7 +62,7 @@ public class Member {
     }
 
     public static class MemberBuilder {
-        private String INSS;
+        private String inss;
         private String lastname;
         private String firstname;
         private String email;
@@ -78,12 +78,12 @@ public class Member {
             return new Member(this);
         }
 
-        public String getINSS() {
-            return INSS;
+        public String getInss() {
+            return inss;
         }
 
-        public MemberBuilder withINSS(String INSS) {
-            this.INSS = INSS;
+        public MemberBuilder withInss(String INSS) {
+            this.inss = INSS;
             return this;
         }
 

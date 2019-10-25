@@ -2,7 +2,7 @@ package be.mc.funfrench.digibooky.api.dtos;
 
 public class MemberDto {
     private String id;
-    private String INSS;
+    private String inss;
     private String lastname;
     private String firstname;
     private String email;
@@ -20,12 +20,12 @@ public class MemberDto {
         return this;
     }
 
-    public String getINSS() {
-        return INSS;
+    public String getInss() {
+        return inss;
     }
 
-    public MemberDto withINSS(String INSS) {
-        this.INSS = INSS;
+    public MemberDto withInss(String INSS) {
+        this.inss = INSS;
         return this;
     }
 

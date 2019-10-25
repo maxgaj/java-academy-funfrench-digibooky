@@ -12,7 +12,7 @@ class MemberRepositoryTest {
         Member member = Member.MemberBuilder.memberBuilder()
                 .withLastname("Senfou")
                 .withFirstname("Hon")
-                .withINSS("15348352")
+                .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
                 .withStreetNumber(12)
@@ -32,7 +32,7 @@ class MemberRepositoryTest {
         Member member = Member.MemberBuilder.memberBuilder()
                 .withLastname("Senfou")
                 .withFirstname("Hon")
-                .withINSS("15348352")
+                .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
                 .withStreetNumber(12)
@@ -45,6 +45,6 @@ class MemberRepositoryTest {
         //THEN
         Assertions.assertThat(repository.isEmailUnique(member.getEmail())).isFalse();
         Assertions.assertThat(repository.isIdUnique(member.getId())).isFalse();
-        Assertions.assertThat(repository.isINSSUnique(member.getINSS())).isFalse();
+        Assertions.assertThat(repository.isINSSUnique(member.getInss())).isFalse();
     }
 }

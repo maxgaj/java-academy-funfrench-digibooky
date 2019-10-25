@@ -21,7 +21,7 @@ public class MemberRepository {
 
     public boolean isINSSUnique(String INSS) {
         long count = memberById.values().stream()
-                .filter(member -> member.getINSS().equals(INSS))
+                .filter(member -> member.getInss().equals(INSS))
                 .count();
         return count <= 0;
     }

@@ -11,7 +11,7 @@ public class MemberMapper {
     public MemberDto mapToDto(Member member) {
         return new MemberDto().withFirstname(member.getFirstname())
                 .withLastname(member.getLastname())
-                .withINSS(member.getINSS())
+                .withInss(member.getInss())
                 .withEmail(member.getEmail())
                 .withId(member.getId())
                 .withStreetName(member.getStreetName())
@@ -24,7 +24,7 @@ public class MemberMapper {
         return Member.MemberBuilder.memberBuilder()
                 .withLastname(createMemberDto.getLastname())
                 .withFirstname(createMemberDto.getFirstname())
-                .withINSS(createMemberDto.getINSS())
+                .withInss(createMemberDto.getInss())
                 .withEmail(createMemberDto.getEmail())
                 .withStreetName(createMemberDto.getStreetName())
                 .withStreetNumber(createMemberDto.getStreetNumber())

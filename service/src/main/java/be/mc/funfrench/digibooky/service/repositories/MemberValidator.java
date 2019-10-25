@@ -34,19 +34,19 @@ public class MemberValidator {
     }
 
     private void hasCity(Member member) {
-        if (member.getCity().isEmpty()||member.getLastname()==null){
+        if (member.getLastname()==null || member.getCity().isEmpty()){
             throw new IllegalArgumentException("Member should have a city");
         }
     }
     
     private void hasLastName(Member member){
-        if (member.getLastname().isEmpty()||member.getLastname()==null){
+        if (member.getLastname()==null || member.getLastname().isEmpty()){
             throw new IllegalArgumentException("Member should have a last name");
         }
     }
     
     private void hasUniqueINSS(Member member){
-        if (!memberRepository.isINSSUnique(member.getINSS())){
+        if (!memberRepository.isINSSUnique(member.getInss())){
             throw new IllegalArgumentException("The INSS should be unique");
         }
     }

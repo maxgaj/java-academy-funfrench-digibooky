@@ -30,7 +30,7 @@ public class MemberController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberDto registerMember(CreateMemberDto createMemberDto) {
+    public MemberDto registerMember(@RequestBody CreateMemberDto createMemberDto) {
         Member memberToCreate= memberMapper.mapToNewDomain(createMemberDto);
         memberValidator.validate(memberToCreate);
         return memberMapper.mapToDto(
