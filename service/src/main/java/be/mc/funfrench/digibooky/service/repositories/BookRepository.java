@@ -77,10 +77,6 @@ public class BookRepository {
         booksByIsbn.put(book8.getIsbn13(), book8);
     }
 
-//    public void persist(Book book){
-//        booksByIsbn.put(book.getIsbn13(), book );
-//    }
-
     public Collection<Book> findAll() {
         return booksByIsbn.values();
     }
@@ -88,9 +84,8 @@ public class BookRepository {
     public List<Book> findByTitle(String partOfTitle) {
         String partOfTitleConvertedToRegex = JWildcard.wildcardToRegex(partOfTitle);
         List<Book> returnedBooks = new ArrayList<>();
-        Collection<Book> books = findAll();
-            Pattern pattern = Pattern.compile(partOfTitleConvertedToRegex);
-        for (Book book : books) {
+        Pattern pattern = Pattern.compile(partOfTitleConvertedToRegex);
+        for (Book book : findAll()) {
             if (pattern.matcher(book.getTitle()).matches()) {
                 returnedBooks.add(book);
             }
