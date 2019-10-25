@@ -28,24 +28,20 @@ public class BookController {
         this.bookMapper = bookMapper;
     }
 
-    @ApiOperation(value = "Get all books from library")
+    @ApiOperation(value = "Get all books from library, books can be filtered by title.")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getAllBooks() {
-        return bookRepository.findAll()
-                .stream()
-                .map(bookMapper::toBookDto)
-                .collect(Collectors.toList());
+    public List<BookDto> getBooks(@RequestParam(required = false) String title) {
+        if (title == null) {
+            return bookRepository.findAll()
+                    .stream()
+                    .map(bookMapper::toBookDto)
+                    .collect(Collectors.toList());
+        } else {
+            return bookRepository.findByTitle(title)
+                    .stream()
+                    .map(bookMapper::toBookDto)
+                    .collect(Collectors.toList());
+        }
     }
-
-    @ApiOperation(value = "Find a book by title")
-    @GetMapping(path = "/{title}", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getBookByTitle(@PathVariable String title){
-        return bookRepository.findByTitle(title).stream().map(bookMapper::toBookDto)
-                .collect(Collectors.toList());
-
-    }
-
-
 }
