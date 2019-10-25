@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@Api(tags = "Books Resource")
+@Api(tags = "Book Resource")
 @RestController
 @RequestMapping(path = "/books")
 public class BookController {
