@@ -79,12 +79,24 @@ public class BookRepository {
         return booksByIsbn.values();
     }
 
-    public boolean searchAndCheckIsbn(String isbnGiven){
+    public boolean checkIsbnFormat(String isbn){
         String regex = "^(?:ISBN(?:-10)?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})" +
                 "[- 0-9X]{13}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher= pattern.matcher(isbnGiven);
+        Matcher matcher= pattern.matcher(isbn);
         return matcher.matches();
+    }
+
+        public List<Book> findByIsbn(String isbn){
+        String partOfTitleConvertedToRegex = JWildcard.wildcardToRegex(isbn);
+        List<Book> returnedBooks = new ArrayList<>();
+        Pattern pattern = Pattern.compile(partOfTitleConvertedToRegex);
+        for (Book book : findAll()) {
+            if (pattern.matcher(book.getIsbn13()).matches()) {
+                returnedBooks.add(book);
+            }
+        }
+        return returnedBooks;
     }
 
     public List<Book> findByTitle(String partOfTitle) {
