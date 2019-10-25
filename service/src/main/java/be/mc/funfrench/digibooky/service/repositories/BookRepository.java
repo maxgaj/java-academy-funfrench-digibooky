@@ -4,8 +4,12 @@ package be.mc.funfrench.digibooky.service.repositories;
 import be.mc.funfrench.digibooky.domain.Book;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class BookRepository {
@@ -79,6 +83,62 @@ public class BookRepository {
 
     public Collection<Book> findAll() {
         return booksByIsbn.values();
+    }
+
+    /**
+     * Search all books for the given author.
+     * @param authorNameRegex The author's firstname, lastname, or both with wildcard
+     * @return all books of the given author
+     */
+    public Collection<Book> findByAuthorName(String authorNameRegex) {
+        List<Book> autherCollection = new ArrayList<>();
+        autherCollection.addAll(findByAuthorFirstName(authorNameRegex));
+        autherCollection.addAll(findByAuthorLastName(authorNameRegex));
+        return autherCollection;
+    }
+
+    private Collection<Book> findByAuthorFirstName(String authorFirstName) {
+        Pattern pattern = Pattern.compile(authorFirstName);
+        for (String firstName : getAllAuthorsFirstNames()) {
+            if(!pattern.matcher(firstName).matches()){
+                continue;
+            }
+            return booksByIsbn
+                    .values()
+                    .stream()
+                    .filter(book -> book.getAuthorFirstName().equals(firstName))
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    private Collection<Book> findByAuthorLastName(String authorLastName) {
+        Pattern pattern = Pattern.compile(authorLastName);
+        for (String lastName : getAllAuthorsLastNames()) {
+            if(!pattern.matcher(authorLastName).matches()){
+                continue;
+            }
+            return booksByIsbn
+                    .values()
+                    .stream()
+                    .filter(book -> book.getAuthorLastName().equals(lastName))
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    private List<String> getAllAuthorsFirstNames() {
+         return booksByIsbn.values()
+                 .stream()
+                 .map(Book::getAuthorFirstName)
+                 .collect(Collectors.toList());
+    }
+
+    private List<String> getAllAuthorsLastNames() {
+        return booksByIsbn.values()
+                .stream()
+                .map(Book::getAuthorFirstName)
+                .collect(Collectors.toList());
     }
 }
 
