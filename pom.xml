@@ -113,8 +113,13 @@
                 <artifactId>jwildcard</artifactId>
                 <version>1.4</version>
             </dependency>
+            <!-- Regex Converter end -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
         </dependencies>
-        <!-- Regex Converter end -->
     </dependencyManagement>
 
     <build>

@@ -1,8 +1,7 @@
 package be.mc.funfrench.digibooky.service.validators;
 
-import be.mc.funfrench.digibooky.domain.Member;
+import be.mc.funfrench.digibooky.domain.users.Member;
 import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
-import be.mc.funfrench.digibooky.service.validators.MemberValidator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

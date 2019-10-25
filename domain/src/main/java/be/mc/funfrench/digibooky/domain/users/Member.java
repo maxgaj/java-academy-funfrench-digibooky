@@ -1,9 +1,12 @@
-package be.mc.funfrench.digibooky.domain;
+package be.mc.funfrench.digibooky.domain.users;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Member {
-    private UUID id;
+public class Member implements BaseUser {
+    private String id;
+    private String password;
+    private List<String> roles;
     private String inss;
     private String lastname;
     private String firstname;
@@ -14,7 +17,6 @@ public class Member {
     private String city;
 
     private Member(MemberBuilder memberBuilder) {
-        this.id = UUID.randomUUID();
         this.inss = memberBuilder.inss;
         this.lastname = memberBuilder.lastname;
         this.firstname = memberBuilder.firstname;
@@ -23,6 +25,28 @@ public class Member {
         this.streetNumber = memberBuilder.streetNumber;
         this.postalCode = memberBuilder.postalCode;
         this.city = memberBuilder.city;
+        this.password = memberBuilder.password;
+        this.roles = new ArrayList<>();
+        this.roles.add("MEMBER");
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLastname() {
@@ -49,10 +73,6 @@ public class Member {
         return city;
     }
 
-    public String getId() {
-        return this.id.toString();
-    }
-
     public String getInss() {
         return this.inss;
     }
@@ -70,6 +90,7 @@ public class Member {
         private String streetNumber;
         private String postalCode;
         private String city;
+        private String password;
 
         private MemberBuilder() {
         }
@@ -115,6 +136,11 @@ public class Member {
 
         public MemberBuilder withCity(String city) {
             this.city = city;
+            return this;
+        }
+
+        public MemberBuilder withPassword(String password) {
+            this.password = password;
             return this;
         }
 
