@@ -1,10 +1,11 @@
 package be.mc.funfrench.digibooky.service.repositories;
 
-
 import be.mc.funfrench.digibooky.domain.Book;
+import com.yevdo.jwildcard.JWildcard;
 import org.springframework.stereotype.Component;
-
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -86,25 +87,16 @@ public class BookRepository {
         return matcher.matches();
     }
 
-//    public static void main(String[] args) {
-//        BookRepository bookRepository= new BookRepository();
-//        String isbnGiven1= "22-22222-22-2";
-//        String isbnGiven2= "123-333-333-3";
-//        String isbnGiven3= "12-55555-55-5";
-//        String isbnGiven4= "00-00000-00-0";
-//        String isbnGiven5= "12345*";
-//        String isbnGiven6= "12345*8888888";
-//        String isbnGiven7= "1234567891234";
-//        String isbnGiven8= "12345*";
-//        bookRepository.searchAndCheckIsbn(isbnGiven1);
-//        bookRepository.searchAndCheckIsbn(isbnGiven2);
-//        bookRepository.searchAndCheckIsbn(isbnGiven3);
-//        bookRepository.searchAndCheckIsbn(isbnGiven4);
-//        bookRepository.searchAndCheckIsbn(isbnGiven5);
-//        bookRepository.searchAndCheckIsbn(isbnGiven6);
-//        bookRepository.searchAndCheckIsbn(isbnGiven7);
-//        bookRepository.searchAndCheckIsbn(isbnGiven8);
-//
-//    }
+    public List<Book> findByTitle(String partOfTitle) {
+        String partOfTitleConvertedToRegex = JWildcard.wildcardToRegex(partOfTitle);
+        List<Book> returnedBooks = new ArrayList<>();
+        Pattern pattern = Pattern.compile(partOfTitleConvertedToRegex);
+        for (Book book : findAll()) {
+            if (pattern.matcher(book.getTitle()).matches()) {
+                returnedBooks.add(book);
+            }
+        }
+        return returnedBooks;
+    }
 }
 

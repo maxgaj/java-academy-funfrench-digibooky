@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
+import java.util.List;
 
 class BookRepositoryTest {
 
@@ -15,5 +16,16 @@ class BookRepositoryTest {
         Collection<Book> booksReturned = bookRepository.findAll();
 
         Assertions.assertEquals(7, booksReturned.size());   //TODO change it back to 0 after story 10A
+    }
+
+    @Test
+    void findByTitle_givenInputWithPartOfTitle_thenReturnLisOfBookThatMatchesPartOfTheTitle() {
+        BookRepository bookRepository = new BookRepository();
+
+        String input = "The*";
+
+        List<Book> booksReturned = bookRepository.findByTitle(input);
+
+        Assertions.assertEquals(booksReturned.size(),4);
     }
 }
