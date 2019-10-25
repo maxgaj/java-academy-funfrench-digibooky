@@ -20,7 +20,12 @@
             <groupId>be.mc.funfrench.digibooky</groupId>
             <artifactId>domain</artifactId>
         </dependency>
-
+        <!-- Regex Converter start -->
+        <dependency>
+            <groupId>com.yevdo</groupId>
+            <artifactId>jwildcard</artifactId>
+        </dependency>
+        <!-- Regex Converter end -->
     </dependencies>
 
 

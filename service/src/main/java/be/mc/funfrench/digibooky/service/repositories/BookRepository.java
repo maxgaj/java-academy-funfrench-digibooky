@@ -1,15 +1,14 @@
 package be.mc.funfrench.digibooky.service.repositories;
 
-
 import be.mc.funfrench.digibooky.domain.Book;
+import com.yevdo.jwildcard.JWildcard;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Component
 public class BookRepository {
@@ -23,7 +22,6 @@ public class BookRepository {
                 .withTitle("Harry Potter ")
                 .withIsbn13("12-12345-34-5")
                 .build();
-
         Book book2 = new Book.BookBuilder()
                 .withAuthorFirstName("Stephen")
                 .withAuthorLastName("King")
@@ -76,10 +74,6 @@ public class BookRepository {
         booksByIsbn.put(book7.getIsbn13(), book7);
         booksByIsbn.put(book8.getIsbn13(), book8);
     }
-
-//    public void persist(Book book){
-//        booksByIsbn.put(book.getIsbn13(), book );
-//    }
 
     public Collection<Book> findAll() {
         return booksByIsbn.values();
@@ -139,6 +133,26 @@ public class BookRepository {
                 .stream()
                 .map(Book::getAuthorFirstName)
                 .collect(Collectors.toList());
+    }
+
+    public boolean searchAndCheckIsbn(String isbnGiven){
+        String regex = "^(?:ISBN(?:-10)?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})" +
+                "[- 0-9X]{13}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher= pattern.matcher(isbnGiven);
+        return matcher.matches();
+    }
+
+    public List<Book> findByTitle(String partOfTitle) {
+        String partOfTitleConvertedToRegex = JWildcard.wildcardToRegex(partOfTitle);
+        List<Book> returnedBooks = new ArrayList<>();
+        Pattern pattern = Pattern.compile(partOfTitleConvertedToRegex);
+        for (Book book : findAll()) {
+            if (pattern.matcher(book.getTitle()).matches()) {
+                returnedBooks.add(book);
+            }
+        }
+        return returnedBooks;
     }
 }
 

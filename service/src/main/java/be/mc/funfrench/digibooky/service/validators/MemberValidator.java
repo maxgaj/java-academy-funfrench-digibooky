@@ -1,6 +1,6 @@
 package be.mc.funfrench.digibooky.service.validators;
 
-import be.mc.funfrench.digibooky.domain.Member;
+import be.mc.funfrench.digibooky.domain.users.Member;
 import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

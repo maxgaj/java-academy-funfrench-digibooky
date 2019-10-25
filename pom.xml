@@ -91,7 +91,8 @@
                 <exclusions>
                     <exclusion>
                         <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy</artifactId> <!-- Pulls in version 2.5.8 which has a an illegal reflective access operation as of Java 9+ -->
+                        <artifactId>groovy
+                        </artifactId> <!-- Pulls in version 2.5.8 which has a an illegal reflective access operation as of Java 9+ -->
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -105,6 +106,18 @@
                 <artifactId>spring-mock-mvc</artifactId>
                 <version>${rest-assured.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <!-- Regex Converter start -->
+            <dependency>
+                <groupId>com.yevdo</groupId>
+                <artifactId>jwildcard</artifactId>
+                <version>1.4</version>
+            </dependency>
+            <!-- Regex Converter end -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
