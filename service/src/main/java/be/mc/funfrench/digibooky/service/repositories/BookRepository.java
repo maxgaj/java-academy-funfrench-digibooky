@@ -3,12 +3,15 @@ package be.mc.funfrench.digibooky.service.repositories;
 import be.mc.funfrench.digibooky.domain.Book;
 import com.yevdo.jwildcard.JWildcard;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class BookRepository {
@@ -81,65 +84,70 @@ public class BookRepository {
 
     /**
      * Search all books for the given author.
+     *
      * @param authorNameRegex The author's firstname, lastname, or both with wildcard
      * @return all books of the given author
      */
     public Collection<Book> findByAuthorName(String authorNameRegex) {
-        List<Book> autherCollection = new ArrayList<>();
+        HashSet<Book> autherCollection = new HashSet<>();
         autherCollection.addAll(findByAuthorFirstName(authorNameRegex));
         autherCollection.addAll(findByAuthorLastName(authorNameRegex));
         return autherCollection;
     }
 
     private Collection<Book> findByAuthorFirstName(String authorFirstName) {
-        Pattern pattern = Pattern.compile(authorFirstName);
+        Pattern pattern = Pattern.compile(JWildcard.wildcardToRegex(authorFirstName));
+
+        HashSet<Book> authorBooks = new HashSet<>();
         for (String firstName : getAllAuthorsFirstNames()) {
-            if(!pattern.matcher(firstName).matches()){
+            if (!pattern.matcher(firstName).matches()) {
                 continue;
             }
-            return booksByIsbn
+            authorBooks.addAll(booksByIsbn
                     .values()
                     .stream()
                     .filter(book -> book.getAuthorFirstName().equals(firstName))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()));
         }
-        return new ArrayList<>();
+        return authorBooks;
     }
 
     private Collection<Book> findByAuthorLastName(String authorLastName) {
-        Pattern pattern = Pattern.compile(authorLastName);
+        Pattern pattern = Pattern.compile(JWildcard.wildcardToRegex(authorLastName));
+
+        HashSet<Book> authorBooks = new HashSet<>();
         for (String lastName : getAllAuthorsLastNames()) {
-            if(!pattern.matcher(authorLastName).matches()){
+            if (!pattern.matcher(authorLastName).matches()) {
                 continue;
             }
-            return booksByIsbn
+            authorBooks.addAll(booksByIsbn
                     .values()
                     .stream()
                     .filter(book -> book.getAuthorLastName().equals(lastName))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()));
         }
-        return new ArrayList<>();
+        return authorBooks;
     }
 
     private List<String> getAllAuthorsFirstNames() {
-         return booksByIsbn.values()
-                 .stream()
-                 .map(Book::getAuthorFirstName)
-                 .collect(Collectors.toList());
-    }
-
-    private List<String> getAllAuthorsLastNames() {
         return booksByIsbn.values()
                 .stream()
                 .map(Book::getAuthorFirstName)
                 .collect(Collectors.toList());
     }
 
-    public boolean searchAndCheckIsbn(String isbnGiven){
+    private List<String> getAllAuthorsLastNames() {
+        return booksByIsbn.values()
+                .stream()
+                .map(Book::getAuthorLastName)
+                .collect(Collectors.toList());
+    }
+
+    public boolean searchAndCheckIsbn(String isbnGiven) {
         String regex = "^(?:ISBN(?:-10)?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})" +
                 "[- 0-9X]{13}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher= pattern.matcher(isbnGiven);
+        Matcher matcher = pattern.matcher(isbnGiven);
         return matcher.matches();
     }
 

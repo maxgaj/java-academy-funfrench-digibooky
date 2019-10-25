@@ -63,7 +63,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByAuthor(@RequestParam(required = false) String authorName) {
         if(authorName == null) {
-            return getAllBooks();
+            return getBooks(null, null);
         }
         return bookRepository
                 .findByAuthorName(authorName)
