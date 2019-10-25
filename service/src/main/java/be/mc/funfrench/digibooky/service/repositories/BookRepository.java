@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class BookRepository {
@@ -19,7 +21,6 @@ public class BookRepository {
                 .withTitle("Harry Potter ")
                 .withIsbn13("12-12345-34-5")
                 .build();
-
         Book book2 = new Book.BookBuilder()
                 .withAuthorFirstName("Stephen")
                 .withAuthorLastName("King")
@@ -73,12 +74,37 @@ public class BookRepository {
         booksByIsbn.put(book8.getIsbn13(), book8);
     }
 
-//    public void persist(Book book){
-//        booksByIsbn.put(book.getIsbn13(), book );
-//    }
-
     public Collection<Book> findAll() {
         return booksByIsbn.values();
     }
+
+    public boolean searchAndCheckIsbn(String isbnGiven){
+        String regex = "^(?:ISBN(?:-10)?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})" +
+                "[- 0-9X]{13}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher= pattern.matcher(isbnGiven);
+        return matcher.matches();
+    }
+
+//    public static void main(String[] args) {
+//        BookRepository bookRepository= new BookRepository();
+//        String isbnGiven1= "22-22222-22-2";
+//        String isbnGiven2= "123-333-333-3";
+//        String isbnGiven3= "12-55555-55-5";
+//        String isbnGiven4= "00-00000-00-0";
+//        String isbnGiven5= "12345*";
+//        String isbnGiven6= "12345*8888888";
+//        String isbnGiven7= "1234567891234";
+//        String isbnGiven8= "12345*";
+//        bookRepository.searchAndCheckIsbn(isbnGiven1);
+//        bookRepository.searchAndCheckIsbn(isbnGiven2);
+//        bookRepository.searchAndCheckIsbn(isbnGiven3);
+//        bookRepository.searchAndCheckIsbn(isbnGiven4);
+//        bookRepository.searchAndCheckIsbn(isbnGiven5);
+//        bookRepository.searchAndCheckIsbn(isbnGiven6);
+//        bookRepository.searchAndCheckIsbn(isbnGiven7);
+//        bookRepository.searchAndCheckIsbn(isbnGiven8);
+//
+//    }
 }
 
