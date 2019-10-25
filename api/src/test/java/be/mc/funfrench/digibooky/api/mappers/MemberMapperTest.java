@@ -2,7 +2,7 @@ package be.mc.funfrench.digibooky.api.mappers;
 
 import be.mc.funfrench.digibooky.api.dtos.CreateMemberDto;
 import be.mc.funfrench.digibooky.api.dtos.MemberDto;
-import be.mc.funfrench.digibooky.domain.Member;
+import be.mc.funfrench.digibooky.domain.users.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +25,8 @@ class MemberMapperTest {
         //WHEN
         MemberDto memberDto = memberMapper.mapToDto(member);
         //THEN
-        Assertions.assertThat(memberDto.getId()).isEqualTo(member.getId().toString());
         Assertions.assertThat(memberDto.getFirstname()).isEqualTo(member.getFirstname());
         Assertions.assertThat(memberDto.getLastname()).isEqualTo(member.getLastname());
-        Assertions.assertThat(memberDto.getInss()).isEqualTo(member.getInss());
         Assertions.assertThat(memberDto.getEmail()).isEqualTo(member.getEmail());
         Assertions.assertThat(memberDto.getStreetName()).isEqualTo(member.getStreetName());
         Assertions.assertThat(memberDto.getCity()).isEqualTo(member.getCity());
@@ -52,7 +50,6 @@ class MemberMapperTest {
         //WHEN
         Member member = memberMapper.mapToNewDomain(createMemberDto);
         //THEN
-        Assertions.assertThat(member.getId()).isNotNull();
         Assertions.assertThat(member.getFirstname()).isEqualTo(createMemberDto.getFirstname());
         Assertions.assertThat(member.getLastname()).isEqualTo(createMemberDto.getLastname());
         Assertions.assertThat(member.getInss()).isEqualTo(createMemberDto.getInss());

@@ -1,7 +1,6 @@
 package be.mc.funfrench.digibooky.service.repositories;
 
-import be.mc.funfrench.digibooky.domain.Member;
-import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
+import be.mc.funfrench.digibooky.domain.users.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,7 @@ class MemberRepositoryTest {
                 .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
-        MemberRepository repository = new MemberRepository();
+        MemberRepository repository = new MemberRepository(new BaseUserRepository());
         //WHEN
         Member savedMember = repository.persist(member);
         //THEN
@@ -39,7 +38,7 @@ class MemberRepositoryTest {
                 .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
-        MemberRepository repository = new MemberRepository();
+        MemberRepository repository = new MemberRepository(new BaseUserRepository());
         //WHEN
         repository.persist(member);
         //THEN
