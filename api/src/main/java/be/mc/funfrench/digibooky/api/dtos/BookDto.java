@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "All information about the book")
 public class BookDto {
 
+    @ApiModelProperty(notes = "The id of the book")
+    private String id;
+
     @ApiModelProperty(notes = "The isbn13 of the book")
     private String isbn13;
 
@@ -17,6 +20,15 @@ public class BookDto {
 
     @ApiModelProperty(notes = "The title of the book")
     private String title;
+
+    public String getId() {
+        return id;
+    }
+
+    public BookDto withId(String id) {
+        this.id = id;
+        return this;
+    }
 
     public String getIsbn13() {
         return isbn13;
