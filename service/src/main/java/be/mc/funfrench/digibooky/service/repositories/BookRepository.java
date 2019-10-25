@@ -2,12 +2,14 @@ package be.mc.funfrench.digibooky.service.repositories;
 
 
 import be.mc.funfrench.digibooky.domain.Book;
+import com.yevdo.jwildcard.JWildcard;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 @Component
 public class BookRepository {
@@ -83,15 +85,19 @@ public class BookRepository {
         return booksByIsbn.values();
     }
 
-    public List<Book> findByTitle(String title) {
+    public List<Book> findByTitle(String partOfTitle) {
+        String partOfTitleConvertedToRegex = JWildcard.wildcardToRegex(partOfTitle);
         List<Book> returnedBooks = new ArrayList<>();
         Collection<Book> books = findAll();
-        for (Book book:books) {
-            if(book.getTitle().equals(title)){
+            Pattern pattern = Pattern.compile(partOfTitleConvertedToRegex);
+        for (Book book : books) {
+            if (pattern.matcher(book.getTitle()).matches()) {
                 returnedBooks.add(book);
             }
         }
         return returnedBooks;
     }
+
+
 }
 
