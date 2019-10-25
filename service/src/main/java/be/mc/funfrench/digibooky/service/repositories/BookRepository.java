@@ -6,12 +6,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Component
 public class BookRepository {
@@ -89,58 +87,16 @@ public class BookRepository {
      * @return all books of the given author
      */
     public Collection<Book> findByAuthorName(String authorNameRegex) {
-        HashSet<Book> autherCollection = new HashSet<>();
-        autherCollection.addAll(findByAuthorFirstName(authorNameRegex));
-        autherCollection.addAll(findByAuthorLastName(authorNameRegex));
-        return autherCollection;
-    }
-
-    private Collection<Book> findByAuthorFirstName(String authorFirstName) {
-        Pattern pattern = Pattern.compile(JWildcard.wildcardToRegex(authorFirstName));
-
-        HashSet<Book> authorBooks = new HashSet<>();
-        for (String firstName : getAllAuthorsFirstNames()) {
-            if (!pattern.matcher(firstName).matches()) {
+        Pattern pattern = Pattern.compile(JWildcard.wildcardToRegex(authorNameRegex));
+        ArrayList<Book> authorBooks = new ArrayList<>();
+        for (Book book : booksByIsbn.values()) {
+            if (!pattern.matcher(book.getAuthorFirstName()).matches() &&
+                    !pattern.matcher(book.getAuthorLastName()).matches()) {
                 continue;
             }
-            authorBooks.addAll(booksByIsbn
-                    .values()
-                    .stream()
-                    .filter(book -> book.getAuthorFirstName().equals(firstName))
-                    .collect(Collectors.toList()));
+            authorBooks.add(book);
         }
         return authorBooks;
-    }
-
-    private Collection<Book> findByAuthorLastName(String authorLastName) {
-        Pattern pattern = Pattern.compile(JWildcard.wildcardToRegex(authorLastName));
-
-        HashSet<Book> authorBooks = new HashSet<>();
-        for (String lastName : getAllAuthorsLastNames()) {
-            if (!pattern.matcher(authorLastName).matches()) {
-                continue;
-            }
-            authorBooks.addAll(booksByIsbn
-                    .values()
-                    .stream()
-                    .filter(book -> book.getAuthorLastName().equals(lastName))
-                    .collect(Collectors.toList()));
-        }
-        return authorBooks;
-    }
-
-    private List<String> getAllAuthorsFirstNames() {
-        return booksByIsbn.values()
-                .stream()
-                .map(Book::getAuthorFirstName)
-                .collect(Collectors.toList());
-    }
-
-    private List<String> getAllAuthorsLastNames() {
-        return booksByIsbn.values()
-                .stream()
-                .map(Book::getAuthorLastName)
-                .collect(Collectors.toList());
     }
 
     public boolean searchAndCheckIsbn(String isbnGiven) {

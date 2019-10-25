@@ -33,7 +33,10 @@ public class BookController {
     @ApiOperation(value = "Get all books from library, books can be filtered by title.")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getBooks(@RequestParam(required = false) String isbn, @RequestParam(required = false) String title) {
+    public List<BookDto> getBooks(@RequestParam(required = false) String isbn,
+                                  @RequestParam(required = false) String title,
+                                  @RequestParam(required = false) String authorName) {
+
         if(isbn != null && title != null){
             return bookRepository.findByTitle(title).stream()
                     .filter(book -> book.getIsbn13().matches(isbn))
@@ -52,24 +55,17 @@ public class BookController {
                     .map(bookMapper::toBookDto)
                     .collect(Collectors.toList());
         }
+        if(authorName != null) {
+            return bookRepository
+                    .findByAuthorName(authorName)
+                    .stream()
+                    .map(bookMapper::toBookDto)
+                    .collect(Collectors.toList());
+        }
+
         return bookRepository.findAll()
                 .stream()
                 .map(bookMapper::toBookDto)
                 .collect(Collectors.toList());
     }
-
-    @ApiOperation(value = "Get books of ")
-    @GetMapping(path = "/authors", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getBooksByAuthor(@RequestParam(required = false) String authorName) {
-        if(authorName == null) {
-            return getBooks(null, null);
-        }
-        return bookRepository
-                .findByAuthorName(authorName)
-                .stream()
-                .map(bookMapper::toBookDto)
-                .collect(Collectors.toList());
-    }
-
 }
