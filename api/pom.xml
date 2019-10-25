@@ -65,6 +65,11 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
+        <dependency>
+            <groupId>be.mc.funfrench.digibooky</groupId>
+            <artifactId>war</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 
