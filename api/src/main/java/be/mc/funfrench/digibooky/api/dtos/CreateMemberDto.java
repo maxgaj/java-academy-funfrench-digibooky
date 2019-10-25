@@ -6,8 +6,8 @@ public class CreateMemberDto {
     private String firstname;
     private String email;
     private String streetName;
-    private int streetNumber;
-    private int postalCode;
+    private String streetNumber;
+    private String postalCode;
     private String city;
 
     public String getInss() {
@@ -55,20 +55,20 @@ public class CreateMemberDto {
         return this;
     }
 
-    public int getStreetNumber() {
+    public String getStreetNumber() {
         return streetNumber;
     }
 
-    public CreateMemberDto withStreetNumber(int streetNumber) {
+    public CreateMemberDto withStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
         return this;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public CreateMemberDto withPostalCode(int postalCode) {
+    public CreateMemberDto withPostalCode(String postalCode) {
         this.postalCode = postalCode;
         return this;
     }

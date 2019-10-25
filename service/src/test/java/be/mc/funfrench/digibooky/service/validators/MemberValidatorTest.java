@@ -1,8 +1,8 @@
-package be.mc.funfrench.digibooky.api.service.validators;
+package be.mc.funfrench.digibooky.service.validators;
 
 import be.mc.funfrench.digibooky.domain.Member;
 import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
-import be.mc.funfrench.digibooky.service.repositories.MemberValidator;
+import be.mc.funfrench.digibooky.service.validators.MemberValidator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,8 +30,8 @@ class MemberValidatorTest {
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
-                .withStreetNumber(12)
-                .withPostalCode(4000)
+                .withStreetNumber("12")
+                .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
         Mockito.when(memberRepository.isIdUnique(member.getId())).thenReturn(true);
@@ -47,8 +47,8 @@ class MemberValidatorTest {
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
-                .withStreetNumber(12)
-                .withPostalCode(4000)
+                .withStreetNumber("12")
+                .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
         Assertions.assertThatThrownBy(() -> memberValidator.validate(member)).hasMessage("Member should have a last name");
@@ -62,8 +62,8 @@ class MemberValidatorTest {
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
-                .withStreetNumber(12)
-                .withPostalCode(4000)
+                .withStreetNumber("12")
+                .withPostalCode("4000")
                 .withCity("")
                 .build();
         Assertions.assertThatThrownBy(() -> memberValidator.validate(member)).hasMessage("Member should have a city");
@@ -77,8 +77,8 @@ class MemberValidatorTest {
                 .withInss("15348352")
                 .withEmail("honsenfou@gmailcom")
                 .withStreetName("oijdsf")
-                .withStreetNumber(12)
-                .withPostalCode(4000)
+                .withStreetNumber("12")
+                .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
         Assertions.assertThatThrownBy(() -> memberValidator.validate(member)).hasMessage("Email should be formatted as x@x.x");

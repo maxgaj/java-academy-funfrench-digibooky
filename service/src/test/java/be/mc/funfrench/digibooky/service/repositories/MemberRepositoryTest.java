@@ -1,4 +1,4 @@
-package be.mc.funfrench.digibooky.api.service.repositories;
+package be.mc.funfrench.digibooky.service.repositories;
 
 import be.mc.funfrench.digibooky.domain.Member;
 import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
@@ -15,8 +15,8 @@ class MemberRepositoryTest {
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
-                .withStreetNumber(12)
-                .withPostalCode(4000)
+                .withStreetNumber("12")
+                .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
         MemberRepository repository = new MemberRepository();
@@ -35,8 +35,8 @@ class MemberRepositoryTest {
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
-                .withStreetNumber(12)
-                .withPostalCode(4000)
+                .withStreetNumber("12")
+                .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
         MemberRepository repository = new MemberRepository();
