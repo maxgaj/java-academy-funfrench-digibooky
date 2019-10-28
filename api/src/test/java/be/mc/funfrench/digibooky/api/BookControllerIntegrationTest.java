@@ -17,16 +17,10 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
-        classes = {TestApplication.class, BookRepository.class})
+        classes = TestApplication.class)
 class BookControllerIntegrationTest {
 
     private final int PORT = 8080;
-    private final BookRepository bookRepository;
-
-    @Autowired
-    public BookControllerIntegrationTest(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
 
     @Test
     void getAllBooks_givenEmptyRepository_thenReturnNotEmptyListOfBooks() {
@@ -122,24 +116,5 @@ class BookControllerIntegrationTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
-    }
-
-    @Test
-    void getBookById_whenAskForExistingId_thenReturnsTheBookDtoOfTheBook() {
-        String bookId = bookRepository.findAll().iterator().next().getId();
-        BookDto bookReturned =
-                RestAssured
-                        .given()
-                        .baseUri("http://localhost")
-                        .accept("application/json")
-                        .when()
-                        .port(PORT)
-                        .get("/books/" + bookId)
-                        .then()
-                        .assertThat()
-                        .statusCode(HttpStatus.OK.value())
-                        .extract().as(BookDto.class);
-
-        assertThat(bookReturned.getId()).isEqualTo(bookId);
     }
 }
