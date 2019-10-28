@@ -1,4 +1,4 @@
-package be.mc.funfrench.digibooky.api.security;
+package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.CreateLibrarianDto;
 import be.mc.funfrench.digibooky.api.dtos.LibrarianDto;

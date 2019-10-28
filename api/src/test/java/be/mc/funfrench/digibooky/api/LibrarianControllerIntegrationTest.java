@@ -1,9 +1,14 @@
 package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.LibrarianDto;
+import be.mc.funfrench.digibooky.domain.users.Librarian;
+import be.mc.funfrench.digibooky.service.repositories.BaseUserRepository;
+import be.mc.funfrench.digibooky.service.repositories.LibrarianRepository;
 import io.restassured.RestAssured;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
@@ -15,6 +20,10 @@ import org.springframework.http.HttpStatus;
 class LibrarianControllerIntegrationTest {
 
     private final int PORT = 8080;
+
+    //@Qualifier("testLibrarianRepo")
+    //@Autowired
+    //LibrarianRepository testLibrarianRepository;
 
     @Test
     void registerLibrarian_givenValidCreateMemberDto_whenRegisterLibrarian_thenStatusCodeCreated() {
@@ -40,4 +49,36 @@ class LibrarianControllerIntegrationTest {
 
         Assertions.assertThat(librarianDto.getFirstName()).isEqualTo("firstname");
     }
+
+    @Test
+    void givenInvalidCredentials_whenGetAllLibrarians_thenReturnStatusCodeForbidden() {
+        RestAssured
+                .given()
+                .baseUri("http://localhost")
+                .header("Content-Type", "application/json")
+                .port(PORT)
+                .when()
+                .get("/librarians")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.FORBIDDEN.value());
+    }
+
+//    @Test
+//    void givenValidCredentials_whenGetAllLibrarians_thenReturnStatusCodeOk() {
+//
+//        //TestApplication.getTestLibrarianController();
+//
+//        RestAssured
+//                .given()
+//                .baseUri("http://localhost")
+//                .header("Content-Type", "application/json")
+//                .header("Authorization", "Basic dXNlcjE6MTIzNA==")
+//                .port(PORT)
+//                .when()
+//                .get("/librarians")
+//                .then()
+//                .assertThat()
+//                .statusCode(HttpStatus.OK.value());
+//    }
 }
