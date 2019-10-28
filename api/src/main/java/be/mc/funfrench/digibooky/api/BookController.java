@@ -87,8 +87,8 @@ public class BookController {
     }
 
     @ApiOperation(value = "Register new Book")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
     public void registerNewBook(@RequestParam String title, @RequestParam String isbn, @RequestParam String authorLastname) throws IllegalAccessError {
         try{
@@ -104,17 +104,17 @@ public class BookController {
     }
 
     @ApiOperation(value = "Soft Delete Book")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path="/{bookId}/delete", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
-    public void deleteBook(@RequestParam String id ) {
-        bookRepository.deleteBookFromRepository(id);
+    public void deleteBook(@PathVariable String bookId ) {
+        bookRepository.deleteBookFromRepository(bookId);
     }
 
     @ApiOperation(value = "Update Book")
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path="/{bookId}/update",produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
-    public void UpdateBook(BookDto bookDto) {
+    public void UpdateBook(@PathVariable String bookId) {
     }
 }

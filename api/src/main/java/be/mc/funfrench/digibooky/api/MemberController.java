@@ -6,6 +6,7 @@ import be.mc.funfrench.digibooky.api.mappers.MemberMapper;
 import be.mc.funfrench.digibooky.domain.users.Member;
 import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
 import be.mc.funfrench.digibooky.service.validators.MemberValidator;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Api(tags = "Member Resource")
 @RestController
 @RequestMapping(path = MemberController.MEMBER_CONTROLLER_RESOURCE_URL)
 public class MemberController {
@@ -44,6 +46,7 @@ public class MemberController {
                 .collect(Collectors.toList());
     }
 
+    @ApiOperation(value= "Register a new Member")
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberDto registerMember(@RequestBody CreateMemberDto createMemberDto) {

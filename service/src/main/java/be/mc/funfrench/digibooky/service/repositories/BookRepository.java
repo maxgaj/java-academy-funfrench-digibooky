@@ -145,7 +145,6 @@ public class BookRepository {
         return authorBooks;
     }
 
-
     public void registerNewBookToRepository(Book book){
         this.booksById.put(book.getIsbn13(), book);
     }
@@ -165,8 +164,7 @@ public class BookRepository {
     }
 
     public void deleteBookFromRepository(String id) {
-        //        this.deletedBooks.put();
-//        this.booksById.remove();
+
     }
 }
 
