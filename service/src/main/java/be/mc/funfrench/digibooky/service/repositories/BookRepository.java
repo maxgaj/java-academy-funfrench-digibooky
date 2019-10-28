@@ -158,6 +158,7 @@ public class BookRepository {
     public Book findBookById(String bookId) throws BookNotFoundException {
         Book book = booksById.get(bookId);
         if(book == null) {
+            logger.error("No book was found for the given id: '" + bookId + "'.");
             throw new BookNotFoundException("No book was found for the given id: '" + bookId + "'.");
         }
         return book;
