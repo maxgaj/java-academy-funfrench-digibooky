@@ -155,15 +155,17 @@ public class BookRepository {
      * Find a book for the given id.
      *
      * @param bookId The id of the searched book
-     * @return book for the given id or null if no book was found
-     * @throws NullPointerException if the bookId is null
+     * @return book for the given id
+     * @throws BookNotFoundException if the book was not found
      */
     public Book findBookById(String bookId) throws BookNotFoundException {
         Book book = booksById.get(bookId);
         if (book == null) {
-            throw new BookNotFoundException("No book was found for the given id: '" + bookId + "'.");
-        }
-        return book;
+                logger.error("No book was found for the given id: '" + bookId + "'.");
+                throw new BookNotFoundException("No book was found for the given id: '" + bookId + "'.");
+        }return book;
     }
 }
+
+
 

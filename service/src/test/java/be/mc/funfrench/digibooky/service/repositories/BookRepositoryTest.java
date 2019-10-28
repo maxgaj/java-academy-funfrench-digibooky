@@ -1,6 +1,7 @@
 package be.mc.funfrench.digibooky.service.repositories;
 
 import be.mc.funfrench.digibooky.domain.Book;
+import be.mc.funfrench.digibooky.infrastructure.BookNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -121,6 +122,23 @@ class BookRepositoryTest {
     }
 
     @Test
+    void findById_givenAnExistingBookId_whenSearchByBookId_thenReturnTheBook() {
+        String bookId = bookRepository.findAll().iterator().next().getId();
+
+        String foundId = bookRepository.findBookById(bookId).getId();
+
+        assertThat(foundId).isEqualTo(bookId);
+    }
+
+    @Test
+    void findById_givenAnNotExistingBookId_whenSearchByBookId_thenThrowsBookNotFoundException() {
+        String bookId = "1";
+        Assertions.assertThrows(BookNotFoundException.class, ()-> {
+            bookRepository.findBookById(bookId);
+        });
+    }
+
+	@Test
     void findByIsbn_givenInputWithPartOfIsbn_thenReturnListOfBookThatMatchesPartOfTheIsbn() {
         BookRepository bookRepository = new BookRepository();
 
