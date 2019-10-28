@@ -1,12 +1,11 @@
 package be.mc.funfrench.digibooky.service.repositories;
 
-import be.mc.funfrench.digibooky.domain.users.BaseUser;
 import be.mc.funfrench.digibooky.domain.users.Member;
+import be.mc.funfrench.digibooky.domain.users.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class MemberRepository {
@@ -19,7 +18,7 @@ public class MemberRepository {
     }
 
     public Collection<Member> findAll(){
-        return repository.findAllByRoles("MEMBER");
+        return repository.findAllByStatus(UserStatus.MEMBER);
     }
 
     public Member persist(Member member) {

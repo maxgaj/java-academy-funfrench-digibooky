@@ -4,6 +4,7 @@ public class CreateMemberDto {
     private String inss;
     private String lastname;
     private String firstname;
+    private String password;
     private String email;
     private String streetName;
     private String streetNumber;
@@ -79,6 +80,15 @@ public class CreateMemberDto {
 
     public CreateMemberDto withCity(String city) {
         this.city = city;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public CreateMemberDto setPassword(String password) {
+        this.password = password;
         return this;
     }
 }

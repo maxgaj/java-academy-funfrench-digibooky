@@ -23,6 +23,7 @@ public class MemberMapper {
         return Member.MemberBuilder.memberBuilder()
                 .withLastname(createMemberDto.getLastname())
                 .withFirstname(createMemberDto.getFirstname())
+                .withPassword(createMemberDto.getPassword())
                 .withInss(createMemberDto.getInss())
                 .withEmail(createMemberDto.getEmail())
                 .withStreetName(createMemberDto.getStreetName())
