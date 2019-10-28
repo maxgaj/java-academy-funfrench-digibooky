@@ -22,6 +22,7 @@ class MemberControllerIntegrationTest {
         String payload = "{\n" +
                 "\"firstname\": \"firstname\",\n" +
                 "\t\"lastname\": \"lastname\",\n" +
+                "\t\"password\": \"password\",\n" +
                 "\t\"inss\": \"1\",\n" +
                 "\t\"email\": \"maxime.gaj@gmail.com\",\n" +
                 "\t\"streetName\": \"jio\",\n" +
@@ -44,6 +45,34 @@ class MemberControllerIntegrationTest {
                 .extract().as(MemberDto.class);
         
         Assertions.assertThat(memberDto.getFirstname()).isEqualTo("firstname");
-        ;
+    }
+
+    @Test
+    void givenInvalidCreadentials_whenGetAllMembers_thenReturnStatusCodeForbiden() {
+        RestAssured
+                .given()
+                    .baseUri("http://localhost")
+                    .header("Content-Type", "application/json")
+                    .port(PORT)
+                .when()
+                    .get("/members")
+                .then()
+                    .assertThat()
+                    .statusCode(HttpStatus.FORBIDDEN.value());
+    }
+
+    @Test
+    void givenValidCredentials_whenGetAllMembers_thenReturnStatusCodeOk() {
+        RestAssured
+                .given()
+                .baseUri("http://localhost")
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Basic dXNlcjA6YWRtaW4=")
+                .port(PORT)
+                .when()
+                .get("/members")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value());
     }
 }

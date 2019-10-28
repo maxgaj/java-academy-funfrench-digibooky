@@ -21,6 +21,7 @@ public class MemberValidator {
         hasCity(member);
         hasInss(member);
         hasEmail(member);
+        hasPassword(member);
         hasValidEmail(member);
         hasUniqueEmail(member);
         hasUniqueId(member);
@@ -41,7 +42,7 @@ public class MemberValidator {
             throw new IllegalArgumentException("Member should have a city");
         }
     }
-    
+
     private void hasLastName(Member member){
         if (member.getLastname()==null || member.getLastname().isEmpty()){
             throw new IllegalArgumentException("Member should have a last name");
@@ -54,6 +55,12 @@ public class MemberValidator {
         }
     }
 
+    private void hasPassword(Member member) {
+        if (member.getPassword()==null || member.getPassword().isEmpty()){
+            throw new IllegalArgumentException("Member should have a password");
+        }
+    }
+
     private void hasEmail(Member member){
         if (member.getEmail()==null || member.getEmail().isEmpty()){
             throw new IllegalArgumentException("Member should have an INSS number");
@@ -61,19 +68,19 @@ public class MemberValidator {
     }
     
     private void hasUniqueInss(Member member){
-        if (!memberRepository.isINSSUnique(member.getInss())){
+        if (memberRepository.countByInss(member.getInss()) > 0){
             throw new IllegalArgumentException("The INSS should be unique");
         }
     }
 
     private void hasUniqueId(Member member){
-        if (!memberRepository.isIdUnique(member.getId())){
+        if (memberRepository.countById(member.getId()) > 0){
             throw new IllegalArgumentException("The ID should be unique");
         }
     }
 
     private void hasUniqueEmail(Member member){
-        if (!memberRepository.isEmailUnique(member.getEmail())){
+        if (memberRepository.countByEmail(member.getEmail()) > 0){
             throw new IllegalArgumentException("The email should be unique");
         }
     }
