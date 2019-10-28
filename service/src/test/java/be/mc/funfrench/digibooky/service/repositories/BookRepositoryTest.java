@@ -25,7 +25,7 @@ class BookRepositoryTest {
 
         Collection<Book> booksReturned = bookRepository.findAll();
 
-        Assertions.assertEquals(7, booksReturned.size());   //TODO change it back to 0 after story 10A
+        Assertions.assertEquals(8, booksReturned.size());   //TODO change it back to 0 after story 10A
     }
 
     @Test

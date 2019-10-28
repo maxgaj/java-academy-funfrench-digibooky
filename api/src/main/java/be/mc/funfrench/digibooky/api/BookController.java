@@ -2,6 +2,7 @@ package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.BookDto;
 import be.mc.funfrench.digibooky.api.mappers.BookMapper;
+import be.mc.funfrench.digibooky.infrastructure.BookNotFoundException;
 import be.mc.funfrench.digibooky.service.repositories.BookRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 import java.util.stream.Collectors;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Api(tags = "Book Resource")
@@ -65,5 +68,18 @@ public class BookController {
         return bookRepository.findByAuthor(authorName).stream()
                 .map(bookMapper::toBookDto)
                 .collect(Collectors.toList());
+    }
+
+    @ApiOperation(value = "Get book from library for the given id")
+    @GetMapping("/{bookId}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookDto getBookById(@PathVariable String bookId) {
+        return bookMapper.toBookDto(bookRepository.findBookById(bookId));
+    }
+
+    @ExceptionHandler(BookNotFoundException.class)
+    protected void bookIdNotFoundException(BookNotFoundException ex,
+                                           HttpServletResponse response) throws IOException {
+        response.sendError(BAD_REQUEST.value(), ex.getMessage());
     }
 }
