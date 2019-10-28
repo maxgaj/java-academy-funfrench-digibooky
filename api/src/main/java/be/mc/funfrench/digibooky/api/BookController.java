@@ -29,31 +29,30 @@ public class BookController {
         this.bookMapper = bookMapper;
     }
 
-    @ApiOperation(value = "Get all books from library, books can be filtered by title.")
+    @ApiOperation(value = "Get all books from library")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getBooks(@RequestParam(required = false) String isbn, @RequestParam(required = false) String title) {
-//        if(isbn != null && title != null){
-//            return bookRepository.findByTitle(title).stream()
-//                    .filter(book -> book.getIsbn13().matches(isbn))
-//                    .map(bookMapper::toBookDto)
-//                    .collect(Collectors.toList());
-//        }
-        if (isbn != null) {
-            return bookRepository.findByIsbn(isbn)
-                    .stream()
-                    .map(bookMapper::toBookDto)
-                    .collect(Collectors.toList());
-        }
-        if (title != null) {
-            return bookRepository.findByTitle(title)
-                    .stream()
-                    .map(bookMapper::toBookDto)
-                    .collect(Collectors.toList());
-        }
+    public List<BookDto> getBooks() {
         return bookRepository.findAll()
                 .stream()
                 .map(bookMapper::toBookDto)
                 .collect(Collectors.toList());
+    }
+    @ApiOperation(value = "Get filtered books by isbn")
+    @GetMapping(params = {"isbn"}, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getBooksByIsbn(@RequestParam String isbn) {
+            return bookRepository.findByIsbn(isbn).stream()
+                    .map(bookMapper::toBookDto)
+                    .collect(Collectors.toList());
+    }
+
+    @ApiOperation(value = "Get filtered books by title")
+    @GetMapping(params = {"title"}, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getBooksByTitle(@RequestParam String title) {
+            return bookRepository.findByTitle(title).stream()
+                    .map(bookMapper::toBookDto)
+                    .collect(Collectors.toList());
     }
 }
