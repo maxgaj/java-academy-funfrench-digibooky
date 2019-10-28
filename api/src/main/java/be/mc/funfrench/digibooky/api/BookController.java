@@ -3,6 +3,7 @@ package be.mc.funfrench.digibooky.api;
 import be.mc.funfrench.digibooky.api.dtos.BookDto;
 import be.mc.funfrench.digibooky.api.dtos.CreateBookDto;
 import be.mc.funfrench.digibooky.api.mappers.BookMapper;
+import be.mc.funfrench.digibooky.infrastructure.BookNotFoundException;
 import be.mc.funfrench.digibooky.domain.Book;
 import be.mc.funfrench.digibooky.service.repositories.BookRepository;
 import io.swagger.annotations.Api;
@@ -12,10 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Api(tags = "Book Resource")
@@ -41,6 +45,7 @@ public class BookController {
                 .map(bookMapper::toBookDto)
                 .collect(Collectors.toList());
     }
+
     @ApiOperation(value = "Get filtered books by isbn")
     @GetMapping(params = {"isbn"}, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -68,6 +73,19 @@ public class BookController {
                 .collect(Collectors.toList());
     }
 
+    @ApiOperation(value = "Get book from library for the given id")
+    @GetMapping("/{bookId}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookDto getBookById(@PathVariable String bookId) {
+        return bookMapper.toBookDto(bookRepository.findBookById(bookId));
+    }
+
+    @ExceptionHandler(BookNotFoundException.class)
+    protected void bookIdNotFoundException(BookNotFoundException ex,
+                                           HttpServletResponse response) throws IOException {
+        response.sendError(BAD_REQUEST.value(), ex.getMessage());
+    }
+
     @ApiOperation(value = "Register new Book")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -81,7 +99,7 @@ public class BookController {
         Book bookToRegister = bookMapper.createBookDtoToBook(createBookDto);
         bookRepository.registerNewBookToRepository(bookToRegister);
         }catch(IllegalAccessError ex){
-            System.err.println("only a librarian can add a new book");;
+            System.err.println("only a librarian can add a new book");
         }//TODO NEED HELP TO USE THE LOGGER TO THROW EXCEPTION (alexis)
     }
 

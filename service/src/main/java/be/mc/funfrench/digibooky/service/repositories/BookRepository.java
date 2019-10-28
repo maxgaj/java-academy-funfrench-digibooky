@@ -1,8 +1,12 @@
 package be.mc.funfrench.digibooky.service.repositories;
 
 import be.mc.funfrench.digibooky.domain.Book;
+import be.mc.funfrench.digibooky.infrastructure.BookNotFoundException;
 import com.yevdo.jwildcard.JWildcard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +18,7 @@ import java.util.regex.Pattern;
 public class BookRepository {
 
     private final ConcurrentHashMap<String, Book> booksById;
+    private final Logger logger = LoggerFactory.getLogger(BookRepository.class);
     private final ConcurrentHashMap<String, Book> deletedBooks;
 
     public BookRepository() {
@@ -73,16 +78,16 @@ public class BookRepository {
                 .withIsbn13("33-33333-33-3")
                 .withId()
                 .build();
-        this.deletedBooks= new ConcurrentHashMap<>();
         this.booksById = new ConcurrentHashMap<>();
-        booksById.put(book1.getIsbn13(), book1);
-        booksById.put(book2.getIsbn13(), book2);
-        booksById.put(book3.getIsbn13(), book3);
-        booksById.put(book4.getIsbn13(), book4);
-        booksById.put(book5.getIsbn13(), book5);
-        booksById.put(book6.getIsbn13(), book6);
-        booksById.put(book7.getIsbn13(), book7);
-        booksById.put(book8.getIsbn13(), book8);
+        booksById.put(book1.getId(), book1);
+        booksById.put(book2.getId(), book2);
+        booksById.put(book3.getId(), book3);
+        booksById.put(book4.getId(), book4);
+        booksById.put(book5.getId(), book5);
+        booksById.put(book6.getId(), book6);
+        booksById.put(book7.getId(), book7);
+        booksById.put(book8.getId(), book8);
+        this.deletedBooks= new ConcurrentHashMap<>();
     }
 
     public Collection<Book> findAll() {
@@ -145,8 +150,23 @@ public class BookRepository {
         this.booksById.put(book.getIsbn13(), book);
     }
 
-    public void deleteBookFromRepository(String id){
-//        this.deletedBooks.put(findByIdid));
-//        this.booksById.remove(findByIdid));
+    /**
+     * Find a book for the given id.
+     * @param bookId The id of the searched book
+     * @return book for the given id or null if no book was found
+     * @throws NullPointerException if the bookId is null
+     */
+    public Book findBookById(String bookId) throws BookNotFoundException {
+        Book book = booksById.get(bookId);
+        if(book == null) {
+            throw new BookNotFoundException("No book was found for the given id: '" + bookId + "'.");
+        }
+        return book;
+    }
+
+    public void deleteBookFromRepository(String id) {
+        //        this.deletedBooks.put();
+//        this.booksById.remove();
     }
 }
+
