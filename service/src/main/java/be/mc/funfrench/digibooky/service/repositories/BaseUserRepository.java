@@ -3,6 +3,7 @@ package be.mc.funfrench.digibooky.service.repositories;
 import be.mc.funfrench.digibooky.domain.users.Admin;
 import be.mc.funfrench.digibooky.domain.users.BaseUser;
 import be.mc.funfrench.digibooky.domain.users.Member;
+import be.mc.funfrench.digibooky.domain.users.UserStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -14,16 +15,20 @@ import java.util.stream.Collectors;
 public class BaseUserRepository {
 
     public final ConcurrentHashMap<String, BaseUser> userTable;
+    private static int nextId = 0;
 
     public BaseUserRepository() {
         this.userTable = new ConcurrentHashMap<>();
+        createDefaultUsers();
+    }
+
+    private void createDefaultUsers() {
         Admin defaultAdmin = new Admin("admin", "Default", "Admin", "root@digibooky.be");
-        defaultAdmin.setId("1");
-        this.userTable.put(defaultAdmin.getId(), defaultAdmin);
+        this.persist(defaultAdmin);
     }
 
     public BaseUser persist(BaseUser user) {
-        String id = UUID.randomUUID().toString();
+        String id = "user" + nextId++;
         user.setId(id);
         userTable.put(id, user);
         return user;
@@ -33,9 +38,9 @@ public class BaseUserRepository {
         return userTable.values();
     }
 
-    public Collection<Member> findAllByRoles(String role) {
+    public Collection<Member> findAllByStatus(UserStatus status) {
         return findAll().stream()
-                .filter(baseUser -> baseUser.getRoles().contains(role))
+                .filter(baseUser -> baseUser.getStatus().equals(status))
                 .map(baseUser -> (Member) baseUser)
                 .collect(Collectors.toList());
     }

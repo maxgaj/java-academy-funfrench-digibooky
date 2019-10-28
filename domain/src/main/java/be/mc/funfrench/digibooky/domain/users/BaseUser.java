@@ -7,4 +7,5 @@ public interface BaseUser {
     void setId(String id);
     String getPassword();
     List<String> getRoles();
+    UserStatus getStatus();
 }
