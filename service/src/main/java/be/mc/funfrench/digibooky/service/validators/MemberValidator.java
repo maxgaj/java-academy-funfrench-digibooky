@@ -21,6 +21,7 @@ public class MemberValidator {
         hasCity(member);
         hasInss(member);
         hasEmail(member);
+        hasPassword(member);
         hasValidEmail(member);
         hasUniqueEmail(member);
         hasUniqueId(member);
@@ -41,7 +42,7 @@ public class MemberValidator {
             throw new IllegalArgumentException("Member should have a city");
         }
     }
-    
+
     private void hasLastName(Member member){
         if (member.getLastname()==null || member.getLastname().isEmpty()){
             throw new IllegalArgumentException("Member should have a last name");
@@ -51,6 +52,12 @@ public class MemberValidator {
     private void hasInss(Member member){
         if (member.getInss()==null || member.getInss().isEmpty()){
             throw new IllegalArgumentException("Member should have an INSS number");
+        }
+    }
+
+    private void hasPassword(Member member) {
+        if (member.getPassword()==null || member.getPassword().isEmpty()){
+            throw new IllegalArgumentException("Member should have a password");
         }
     }
 

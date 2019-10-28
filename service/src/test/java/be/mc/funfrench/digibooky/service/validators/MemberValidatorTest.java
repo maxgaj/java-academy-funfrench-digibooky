@@ -26,6 +26,7 @@ class MemberValidatorTest {
         Member member = Member.MemberBuilder.memberBuilder()
                 .withLastname("Senfou")
                 .withFirstname("Hon")
+                .withPassword("password")
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
@@ -43,6 +44,7 @@ class MemberValidatorTest {
         Member member = Member.MemberBuilder.memberBuilder()
                 .withLastname("")
                 .withFirstname("Hon")
+                .withPassword("password")
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
@@ -58,6 +60,7 @@ class MemberValidatorTest {
         Member member = Member.MemberBuilder.memberBuilder()
                 .withLastname("Senfou")
                 .withFirstname("Hon")
+                .withPassword("password")
                 .withInss("15348352")
                 .withEmail("honsenfou@gmail.com")
                 .withStreetName("oijdsf")
@@ -73,6 +76,7 @@ class MemberValidatorTest {
         Member member = Member.MemberBuilder.memberBuilder()
                 .withLastname("Senfou")
                 .withFirstname("Hon")
+                .withPassword("password")
                 .withInss("15348352")
                 .withEmail("honsenfou@gmailcom")
                 .withStreetName("oijdsf")
@@ -81,5 +85,21 @@ class MemberValidatorTest {
                 .withCity("Liège")
                 .build();
         Assertions.assertThatThrownBy(() -> memberValidator.validate(member)).hasMessage("Email should be formatted as x@x.x");
+    }
+
+    @Test
+    void validate_GivenEmptyPassword_ThenExceptionThrown() {
+        Member member = Member.MemberBuilder.memberBuilder()
+                .withLastname("Senfou")
+                .withFirstname("Hon")
+                .withPassword("")
+                .withInss("15348352")
+                .withEmail("honsenfou@gmail.com")
+                .withStreetName("oijdsf")
+                .withStreetNumber("12")
+                .withPostalCode("4000")
+                .withCity("Liège")
+                .build();
+        Assertions.assertThatThrownBy(() -> memberValidator.validate(member)).hasMessage("Member should have a password");
     }
 }
