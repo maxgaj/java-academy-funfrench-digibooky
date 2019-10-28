@@ -38,10 +38,9 @@ public class BaseUserRepository {
         return userTable.values();
     }
 
-    public Collection<Member> findAllByStatus(UserStatus status) {
+    public Collection<BaseUser> findAllByStatus(UserStatus status) {
         return findAll().stream()
                 .filter(baseUser -> baseUser.getStatus().equals(status))
-                .map(baseUser -> (Member) baseUser)
                 .collect(Collectors.toList());
     }
 

@@ -67,6 +67,11 @@
                 <artifactId>domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>be.mc.funfrench.digibooky</groupId>
+                <artifactId>infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- External -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

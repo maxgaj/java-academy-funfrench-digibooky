@@ -37,5 +37,27 @@ class BaseUserRepositoryTest {
         Assertions.assertThat(repository.findAll().size()).isEqualTo(size+1);
     }
 
+    @Test
+    void findAllByStatus_givenRepositoryWithUsers_thenReturnCorrectUsers() {
+        Member member = Member.MemberBuilder.memberBuilder().build();
+        BaseUserRepository repository = new BaseUserRepository();
+        repository.persist(member);
+        Assertions.assertThat(repository.findAllByStatus(member.getStatus())).containsExactly(member);
+    }
 
+    @Test
+    void findOneByIdAndPassword_givenRepositoryWithUser_thenReturnCorrectUser() {
+        Member member = Member.MemberBuilder.memberBuilder()
+                .withPassword("test")
+                .build();
+        BaseUserRepository repository = new BaseUserRepository();
+        BaseUser savedUser = repository.persist(member);
+        Assertions.assertThat(repository.findOneByIdAndPassword(savedUser.getId(), savedUser.getPassword())).isEqualTo(savedUser);
+    }
+
+    @Test
+    void findOneByIdAndPassword_givenEmptyRepository_thenReturnNull() {
+        BaseUserRepository repository = new BaseUserRepository();
+        Assertions.assertThat(repository.findOneByIdAndPassword("test", "test")).isNull();
+    }
 }

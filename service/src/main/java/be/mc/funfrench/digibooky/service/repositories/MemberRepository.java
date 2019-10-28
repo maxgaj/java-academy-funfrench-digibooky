@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Component
 public class MemberRepository {
@@ -18,33 +19,30 @@ public class MemberRepository {
     }
 
     public Collection<Member> findAll(){
-        return repository.findAllByStatus(UserStatus.MEMBER);
+        return repository.findAllByStatus(UserStatus.MEMBER).stream()
+                .map(member -> (Member) member)
+                .collect(Collectors.toList());
     }
 
     public Member persist(Member member) {
         return (Member) repository.persist(member);
     }
 
-    public boolean isINSSUnique(String INSS) {
-        long count = findAll().stream()
-                .filter(member -> member.getInss().equals(INSS))
+    public long countByInss(String inss){
+        return findAll().stream()
+                .filter(member -> member.getInss().equals(inss))
                 .count();
-        return count <= 0;
     }
 
-    public boolean isEmailUnique(String email) {
-        long count = findAll().stream()
+    public long countByEmail(String email){
+        return findAll().stream()
                 .filter(member -> member.getEmail().equals(email))
                 .count();
-        return count <= 0;
     }
 
-    public boolean isIdUnique(String id) {
-        long count = findAll().stream()
+    public long countById(String id){
+        return findAll().stream()
                 .filter(member -> member.getId().equals(id))
                 .count();
-        return count <= 0;
     }
-
-
 }

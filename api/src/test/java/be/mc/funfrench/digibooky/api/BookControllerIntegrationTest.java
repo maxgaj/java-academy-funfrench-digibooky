@@ -1,10 +1,17 @@
 package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.BookDto;
+import be.mc.funfrench.digibooky.service.repositories.BookRepository;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -20,17 +27,43 @@ class BookControllerIntegrationTest {
         BookDto[] booksReturned =
                 RestAssured
                         .given()
+                        .baseUri("http://localhost")
+                        .accept("application/json")
+                        .when()
+                        .port(PORT)
+                        .get("/books")
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract().as(BookDto[].class);
+
+        assertThat(booksReturned).isNotEmpty();  //TODO change it back to isEmpty after story 10A
+    }
+
+    @Test
+    void getBooksByAuthorName_givenPreFilledRepository_whenAskBooksForAuthorThatNameStartsWithSa_thenReturnListOfBooksForSapkowskiAndSartre() {
+        BookDto[] booksReturned =
+                RestAssured
+                        .given()
                             .baseUri("http://localhost")
                             .accept("application/json")
                         .when()
                             .port(PORT)
-                            .get("/books")
+                            .get("/books?authorName=Sa*")
                         .then()
                             .assertThat()
                             .statusCode(HttpStatus.OK.value())
-                .extract().as(BookDto[].class);
+                            .extract().as(BookDto[].class);
 
-        assertThat(booksReturned).isNotEmpty();  //TODO change it back to isEmpty after story 10A
+        assertThat(Arrays.stream(booksReturned)
+                .map(BookDto::getAuthorLastName)
+                .collect(Collectors.toList()))
+                .containsOnly("Sapkowski", "Sartre");
+
+        assertThat(Arrays.stream(booksReturned)
+                .map(BookDto::getTitle)
+                .collect(Collectors.toList()))
+                .containsOnly("The Withcer", "Les mains sales");
     }
 
     @Test
@@ -50,7 +83,6 @@ class BookControllerIntegrationTest {
                         .extract().as(BookDto[].class);
 
         assertThat(booksReturned).isNotEmpty();
-
     }
 
     @Test
@@ -70,6 +102,19 @@ class BookControllerIntegrationTest {
                         .extract().as(BookDto[].class);
 
         assertThat(booksReturned).isEmpty();
+    }
 
+    @Test
+    void getBookById_whenGivenNotExistingId_thenStatusCodeIsBadRequest() {
+        RestAssured
+                .given()
+                .baseUri("http://localhost")
+                .accept("application/json")
+                .when()
+                .port(PORT)
+                .get("/books/1")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }
