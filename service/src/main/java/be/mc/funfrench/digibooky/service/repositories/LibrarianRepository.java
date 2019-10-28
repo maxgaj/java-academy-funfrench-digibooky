@@ -1,9 +1,11 @@
 package be.mc.funfrench.digibooky.service.repositories;
 
 import be.mc.funfrench.digibooky.domain.users.Librarian;
+import be.mc.funfrench.digibooky.domain.users.UserStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class LibrarianRepository {
@@ -15,12 +17,13 @@ public class LibrarianRepository {
     }
 
     public Collection<Librarian> findAll() {
-        return null;
+        return repository.findAllByStatus(UserStatus.LIBRARIAN).stream()
+                .map(librarian -> (Librarian) librarian)
+                .collect(Collectors.toList());
     }
 
     public Librarian persist(Librarian librarian) {
-
-        return librarian;
+        return (Librarian) repository.persist(librarian);
     }
 
     public long countByEmail(String email) {
@@ -30,7 +33,7 @@ public class LibrarianRepository {
 
     }
 
-    public long countById(String id) {
+    long countById(String id) {
         return findAll().stream()
                 .filter(librarian -> librarian.getId().equals(id))
                 .count();
