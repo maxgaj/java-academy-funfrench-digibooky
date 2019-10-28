@@ -6,6 +6,7 @@ import java.util.List;
 public class Member implements BaseUser {
     private String id;
     private String password;
+    private UserStatus status;
     private List<String> roles;
     private String inss;
     private String lastname;
@@ -27,7 +28,8 @@ public class Member implements BaseUser {
         this.city = memberBuilder.city;
         this.password = memberBuilder.password;
         this.roles = new ArrayList<>();
-        this.roles.add("MEMBER");
+        this.status = UserStatus.MEMBER;
+        this.roles.add(UserStatus.MEMBER.toString());
     }
 
     @Override
@@ -40,13 +42,18 @@ public class Member implements BaseUser {
         return roles;
     }
 
-    public String getId() {
-        return this.id;
+    @Override
+    public UserStatus getStatus() {
+        return status;
     }
 
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public String getLastname() {
