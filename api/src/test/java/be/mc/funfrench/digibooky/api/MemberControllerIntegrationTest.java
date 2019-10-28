@@ -29,7 +29,7 @@ class MemberControllerIntegrationTest {
                 "\t\"streetNumber\": \"12\",\n" +
                 "\t\"postalCode\": \"4000\",\n" +
                 "\t\"city\": \"Liège\""+
-                "}";;
+                "}";
 
         MemberDto memberDto = RestAssured
                 .given()

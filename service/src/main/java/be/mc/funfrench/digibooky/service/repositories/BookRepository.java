@@ -19,6 +19,7 @@ public class BookRepository {
 
     private final ConcurrentHashMap<String, Book> booksById;
     private final Logger logger = LoggerFactory.getLogger(BookRepository.class);
+    private final ConcurrentHashMap<String, Book> deletedBooks;
 
     public BookRepository() {
         Book book1 = new Book.BookBuilder()
@@ -39,7 +40,7 @@ public class BookRepository {
                 .withAuthorFirstName("Stephen")
                 .withAuthorLastName("King")
                 .withTitle("The Dark Tower")
-                .withIsbn13("12-12345-34-5")
+                .withIsbn13("12-12123-34-5")
                 .withId()
                 .build();
         Book book4 = new Book.BookBuilder()
@@ -86,6 +87,7 @@ public class BookRepository {
         booksById.put(book6.getId(), book6);
         booksById.put(book7.getId(), book7);
         booksById.put(book8.getId(), book8);
+        this.deletedBooks= new ConcurrentHashMap<>();
     }
 
     public Collection<Book> findAll() {
@@ -143,6 +145,10 @@ public class BookRepository {
         return authorBooks;
     }
 
+    public void registerNewBookToRepository(Book book){
+        this.booksById.put(book.getIsbn13(), book);
+    }
+
     /**
      * Find a book for the given id.
      * @param bookId The id of the searched book
@@ -155,6 +161,10 @@ public class BookRepository {
             throw new BookNotFoundException("No book was found for the given id: '" + bookId + "'.");
         }
         return book;
+    }
+
+    public void deleteBookFromRepository(String id) {
+
     }
 }
 

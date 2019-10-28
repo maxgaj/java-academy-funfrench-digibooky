@@ -23,6 +23,7 @@ class BookRepositoryTest {
 
     @Test
     void findAll_givenEmptyRepository_thenReturnEmptyCollection() {
+        BookRepository bookRepository = new BookRepository();
 
         Collection<Book> booksReturned = bookRepository.findAll();
 
@@ -31,6 +32,7 @@ class BookRepositoryTest {
 
     @Test
     void findByTitle_givenInputWithPartOfTitle_thenReturnLisOfBookThatMatchesPartOfTheTitle() {
+        BookRepository bookRepository = new BookRepository();
 
         String input = "The*";
 
@@ -134,5 +136,16 @@ class BookRepositoryTest {
         Assertions.assertThrows(BookNotFoundException.class, ()-> {
             bookRepository.findBookById(bookId);
         });
+    }
+
+	@Test
+    void findByIsbn_givenInputWithPartOfIsbn_thenReturnListOfBookThatMatchesPartOfTheIsbn() {
+        BookRepository bookRepository = new BookRepository();
+
+        String input = "12*";
+
+        List<Book> booksReturned = bookRepository.findByIsbn(input);
+
+        Assertions.assertEquals(booksReturned.size(),3);
     }
 }
