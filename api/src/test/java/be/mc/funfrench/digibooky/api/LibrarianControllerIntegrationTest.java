@@ -1,16 +1,11 @@
 package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.LibrarianDto;
-import be.mc.funfrench.digibooky.api.dtos.MemberDto;
-import be.mc.funfrench.digibooky.api.security.LibrarianController;
 import io.restassured.RestAssured;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
@@ -19,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LibrarianControllerIntegrationTest {
 
-    @Autowired
-    private LibrarianController librarianController;
     private final int PORT = 8080;
 
     @Test

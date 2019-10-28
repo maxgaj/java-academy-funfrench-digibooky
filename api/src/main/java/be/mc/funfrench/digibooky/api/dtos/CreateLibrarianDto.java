@@ -1,9 +1,5 @@
 package be.mc.funfrench.digibooky.api.dtos;
 
-import be.mc.funfrench.digibooky.domain.users.UserStatus;
-
-import java.util.List;
-
 public class CreateLibrarianDto {
     private String password;
     private String firstName;
