@@ -32,4 +32,44 @@ class BookControllerIntegrationTest {
 
         assertThat(booksReturned).isNotEmpty();  //TODO change it back to isEmpty after story 10A
     }
+
+    @Test
+    void getBooksByTitle_whenGivenRightQueryParams_thenReturnNotEmptyListOfBooks() {
+        BookDto[] booksReturned =
+                RestAssured
+                        .given()
+                        .baseUri("http://localhost")
+                        .accept("application/json")
+                        .when()
+                        .queryParam("title", "The*")
+                        .port(PORT)
+                        .get("/books")
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract().as(BookDto[].class);
+
+        assertThat(booksReturned).isNotEmpty();
+
+    }
+
+    @Test
+    void getBooksByTitle_whenGivenWrongQueryParams_thenReturnEmptyListOfBooks() {
+        BookDto[] booksReturned =
+                RestAssured
+                        .given()
+                        .baseUri("http://localhost")
+                        .accept("application/json")
+                        .when()
+                        .queryParam("title", "The")
+                        .port(PORT)
+                        .get("/books")
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract().as(BookDto[].class);
+
+        assertThat(booksReturned).isEmpty();
+
+    }
 }
