@@ -15,7 +15,7 @@ class BookRepositoryTest {
 
         Collection<Book> booksReturned = bookRepository.findAll();
 
-        Assertions.assertEquals(7, booksReturned.size());   //TODO change it back to 0 after story 10A
+        Assertions.assertEquals(8, booksReturned.size());   //TODO change it back to 0 after story 10A
     }
 
     @Test
@@ -27,5 +27,16 @@ class BookRepositoryTest {
         List<Book> booksReturned = bookRepository.findByTitle(input);
 
         Assertions.assertEquals(booksReturned.size(),4);
+    }
+
+    @Test
+    void findByIsbn_givenInputWithPartOfIsbn_thenReturnListOfBookThatMatchesPartOfTheIsbn() {
+        BookRepository bookRepository = new BookRepository();
+
+        String input = "12*";
+
+        List<Book> booksReturned = bookRepository.findByIsbn(input);
+
+        Assertions.assertEquals(booksReturned.size(),3);
     }
 }

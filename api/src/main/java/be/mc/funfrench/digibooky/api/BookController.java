@@ -1,12 +1,15 @@
 package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.BookDto;
+import be.mc.funfrench.digibooky.api.dtos.CreateBookDto;
 import be.mc.funfrench.digibooky.api.mappers.BookMapper;
+import be.mc.funfrench.digibooky.domain.Book;
 import be.mc.funfrench.digibooky.service.repositories.BookRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,5 +57,37 @@ public class BookController {
             return bookRepository.findByTitle(title).stream()
                     .map(bookMapper::toBookDto)
                     .collect(Collectors.toList());
+    }
+
+    @ApiOperation(value = "Register new Book")
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('LIBRARIAN')")
+    public void registerNewBook(@RequestParam String title, @RequestParam String isbn, @RequestParam String authorLastname) throws IllegalAccessError {
+        try{
+        CreateBookDto createBookDto= new CreateBookDto()
+                .withIsbn13(isbn)
+                .withAuthorLastName(authorLastname)
+                .withTitle(title);
+        Book bookToRegister = bookMapper.createBookDtoToBook(createBookDto);
+        bookRepository.registerNewBookToRepository(bookToRegister);
+        }catch(IllegalAccessError ex){
+            System.err.println("only a librarian can add a new book");;
+        }//TODO NEED HELP TO USE THE LOGGER TO THROW EXCEPTION (alexis)
+    }
+
+    @ApiOperation(value = "Soft Delete Book")
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('LIBRARIAN')")
+    public void deleteBook(@RequestParam String id ) {
+        bookRepository.deleteBookFromRepository(id);
+    }
+
+    @ApiOperation(value = "Update Book")
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('LIBRARIAN')")
+    public void UpdateBook(BookDto bookDto) {
     }
 }

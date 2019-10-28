@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class BookRepository {
 
-    private final ConcurrentHashMap<String, Book> booksByIsbn;
+    private final ConcurrentHashMap<String, Book> booksById;
+    private final ConcurrentHashMap<String, Book> deletedBooks;
 
     public BookRepository() {
         Book book1 = new Book.BookBuilder()
@@ -34,7 +36,7 @@ public class BookRepository {
                 .withAuthorFirstName("Stephen")
                 .withAuthorLastName("King")
                 .withTitle("The Dark Tower")
-                .withIsbn13("12-12345-34-5")
+                .withIsbn13("12-12123-34-5")
                 .withId()
                 .build();
         Book book4 = new Book.BookBuilder()
@@ -72,19 +74,20 @@ public class BookRepository {
                 .withIsbn13("33-33333-33-3")
                 .withId()
                 .build();
-        this.booksByIsbn = new ConcurrentHashMap<>();
-        booksByIsbn.put(book1.getIsbn13(), book1);
-        booksByIsbn.put(book2.getIsbn13(), book2);
-        booksByIsbn.put(book3.getIsbn13(), book3);
-        booksByIsbn.put(book4.getIsbn13(), book4);
-        booksByIsbn.put(book5.getIsbn13(), book5);
-        booksByIsbn.put(book6.getIsbn13(), book6);
-        booksByIsbn.put(book7.getIsbn13(), book7);
-        booksByIsbn.put(book8.getIsbn13(), book8);
+        this.deletedBooks= new ConcurrentHashMap<>();
+        this.booksById = new ConcurrentHashMap<>();
+        booksById.put(book1.getIsbn13(), book1);
+        booksById.put(book2.getIsbn13(), book2);
+        booksById.put(book3.getIsbn13(), book3);
+        booksById.put(book4.getIsbn13(), book4);
+        booksById.put(book5.getIsbn13(), book5);
+        booksById.put(book6.getIsbn13(), book6);
+        booksById.put(book7.getIsbn13(), book7);
+        booksById.put(book8.getIsbn13(), book8);
     }
 
     public Collection<Book> findAll() {
-        return booksByIsbn.values();
+        return booksById.values();
     }
 
     public boolean checkIsbnFormat(String isbn){
@@ -118,5 +121,15 @@ public class BookRepository {
         }
         return returnedBooks;
     }
+
+    public void registerNewBookToRepository(Book book){
+        this.booksById.put(book.getIsbn13(), book);
+    }
+
+    public void deleteBookFromRepository(String id){
+//        this.deletedBooks.put(findByIdid));
+//        this.booksById.remove(findByIdid));
+    }
 }
 
+//TODO it would be better to use another class in service to search and find inside the repos(alexis)
