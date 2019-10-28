@@ -119,5 +119,24 @@ public class BookRepository {
         }
         return returnedBooks;
     }
+
+    /**
+     * Search all books for the given author's part / full name.
+     * @param authorName The author's firstname, lastname, or both with wildcard.
+     * @return all books of the givens author
+     */
+    public List<Book> findByAuthor(String authorName) {
+        List<Book> authorBooks = new ArrayList<>();
+        Pattern pattern = Pattern.compile(JWildcard.wildcardToRegex(authorName));
+        for (Book book : findAll()) {
+            if (pattern.matcher(book.getAuthorLastName()).matches() ||
+                    pattern.matcher(book.getAuthorFirstName()).matches() ||
+                    pattern.matcher(book.getAuthorFirstName().concat(" ").concat(book.getAuthorLastName())).matches() ||
+                    pattern.matcher(book.getAuthorLastName().concat(" ").concat(book.getAuthorFirstName())).matches()) {
+                authorBooks.add(book);
+            }
+        }
+        return authorBooks;
+    }
 }
 

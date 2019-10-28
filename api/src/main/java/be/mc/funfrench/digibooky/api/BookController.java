@@ -39,12 +39,12 @@ public class BookController {
                 .map(bookMapper::toBookDto)
                 .collect(Collectors.toList());
     }
+
     @ApiOperation(value = "Get filtered books by isbn")
     @GetMapping(params = {"isbn"}, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByIsbn(@RequestParam String isbn) {
             return bookRepository.findByIsbn(isbn).stream()
-
                     .map(bookMapper::toBookDto)
                     .collect(Collectors.toList());
     }
@@ -56,5 +56,14 @@ public class BookController {
             return bookRepository.findByTitle(title).stream()
                     .map(bookMapper::toBookDto)
                     .collect(Collectors.toList());
+    }
+
+    @ApiOperation(value = "Get filtered books by author name")
+    @GetMapping(params = {"authorName"}, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getBooksByAuthorName(@RequestParam String authorName) {
+        return bookRepository.findByAuthor(authorName).stream()
+                .map(bookMapper::toBookDto)
+                .collect(Collectors.toList());
     }
 }
