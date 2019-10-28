@@ -45,4 +45,8 @@ public class MemberRepository {
                 .filter(member -> member.getId().equals(id))
                 .count();
     }
+
+    public Member findOneOrNullById(String id) {
+        return findAll().stream().filter(member -> member.getId().equals(id)).findFirst().orElse(null);
+    }
 }
