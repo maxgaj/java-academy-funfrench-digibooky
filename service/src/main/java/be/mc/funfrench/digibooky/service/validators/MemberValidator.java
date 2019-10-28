@@ -61,19 +61,19 @@ public class MemberValidator {
     }
     
     private void hasUniqueInss(Member member){
-        if (!memberRepository.isINSSUnique(member.getInss())){
+        if (memberRepository.countByInss(member.getInss()) > 0){
             throw new IllegalArgumentException("The INSS should be unique");
         }
     }
 
     private void hasUniqueId(Member member){
-        if (!memberRepository.isIdUnique(member.getId())){
+        if (memberRepository.countById(member.getId()) > 0){
             throw new IllegalArgumentException("The ID should be unique");
         }
     }
 
     private void hasUniqueEmail(Member member){
-        if (!memberRepository.isEmailUnique(member.getEmail())){
+        if (memberRepository.countByEmail(member.getEmail()) > 0){
             throw new IllegalArgumentException("The email should be unique");
         }
     }

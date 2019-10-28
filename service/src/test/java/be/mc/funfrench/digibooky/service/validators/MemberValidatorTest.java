@@ -21,8 +21,8 @@ class MemberValidatorTest {
 
     @Test
     void validate_givenCorrectMember_ThenReturnTrue() {
-        Mockito.when(memberRepository.isEmailUnique("honsenfou@gmail.com")).thenReturn(true);
-        Mockito.when(memberRepository.isINSSUnique("15348352")).thenReturn(true);
+        Mockito.when(memberRepository.countByEmail("honsenfou@gmail.com")).thenReturn((long) 0);
+        Mockito.when(memberRepository.countByInss("15348352")).thenReturn((long) 0);
         Member member = Member.MemberBuilder.memberBuilder()
                 .withLastname("Senfou")
                 .withFirstname("Hon")
@@ -33,7 +33,7 @@ class MemberValidatorTest {
                 .withPostalCode("4000")
                 .withCity("Liège")
                 .build();
-        Mockito.when(memberRepository.isIdUnique(member.getId())).thenReturn(true);
+        Mockito.when(memberRepository.countById(member.getId())).thenReturn((long) 0);
         boolean result = memberValidator.validate(member);
         Assertions.assertThat(result).isTrue();
     }
