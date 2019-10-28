@@ -148,4 +148,42 @@ class BookRepositoryTest {
 
         Assertions.assertEquals(booksReturned.size(),3);
     }
+
+//    @Test
+//    void GivenValidCreatedBookDto_RegisterBookToBookRepository() {
+//        BookRepository bookRepository = new BookRepository();
+//        Book newBook = new Book.BookBuilder()
+//                .withTitle("testBook")
+//                .withAuthorLastName("me")
+//                .withIsbn13("00-00000-11-1")
+//                .build();
+//
+//        Book bookToRegister = bookRepository.persistNewBookToRepository(newBook);
+//
+//        Assertions.assertEquals("me", bookToRegister.getAuthorLastName());
+//        Assertions.assertEquals("00-00000-11-1", bookToRegister.getIsbn13());
+//        Assertions.assertEquals("testBook", bookToRegister.getTitle());
+//    }
+//
+//    @Test
+//    void GivenAnUpdateBook_ThenBookIsUpdateWithValuesOfUpdateBook(){
+//        BookRepository bookRepository = new BookRepository();
+//        Book book= new Book.BookBuilder()
+//                .withAuthorLastName("blabla")
+//                .withIsbn13("11-11111-11-1")
+//                .withTitle("testTitle")
+//                .withId()
+//                .build();
+//        Book savedBook = bookRepository.persistNewBookToRepository(book);
+//
+//        Book updatedBook = new Book.BookBuilder()
+//                .withAuthorLastName("blibli")
+//                .withIsbn13("11-11111-11-2")
+//                .withTitle("testTitle88")
+//                .withId()
+//                .build();
+//
+////        bookRepository..(savedBook.getId(), updatedBook);
+//        Assertions.assertEquals("Tolkien", book.getAuthorFirstName());
+//    }
 }

@@ -32,6 +32,7 @@ public class BookMapper {
                 .withIsbn13(createBookDto.getIsbn13())
                 .withAuthorLastName(createBookDto.getAuthorLastName())
                 .withTitle(createBookDto.getTitle())
+                .withId()
                 .build();
     }
 

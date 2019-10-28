@@ -101,6 +101,7 @@ public class BookController {
         }return bookRepository.persistNewBookToRepository(bookToRegister);
     }//TODO NEED HELP TO USE THE LOGGER TO THROW EXCEPTION (alexis)
 
+
     @ApiOperation(value = "Soft Delete Book")
     @DeleteMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -114,7 +115,7 @@ public class BookController {
     @PutMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
-    public void UpdateBook(@PathVariable String bookId, @RequestBody UpdateBookDto updateBookDto) {
+    public void updateBook(@PathVariable String bookId, @RequestBody UpdateBookDto updateBookDto) {
         Book book = bookRepository.findBookById(bookId);
         bookMapper.updateBookDtoToBook(book, updateBookDto);
     }

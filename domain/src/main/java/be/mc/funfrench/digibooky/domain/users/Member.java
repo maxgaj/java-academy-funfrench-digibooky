@@ -157,6 +157,4 @@ public class Member implements BaseUser {
             return new MemberBuilder();
         }
     }
-
-
 }
