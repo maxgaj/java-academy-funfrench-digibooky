@@ -1,4 +1,4 @@
-package be.mc.funfrench.digibooky.api;//package be.mc.funfrench.digibooky.api;
+package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.MemberDto;
 import io.restassured.RestAssured;
@@ -28,7 +28,7 @@ class MemberControllerIntegrationTest {
                 "\t\"streetNumber\": \"12\",\n" +
                 "\t\"postalCode\": \"4000\",\n" +
                 "\t\"city\": \"Liège\""+
-                "}";;
+                "}";
 
         MemberDto memberDto = RestAssured
                 .given()
@@ -44,6 +44,5 @@ class MemberControllerIntegrationTest {
                 .extract().as(MemberDto.class);
         
         Assertions.assertThat(memberDto.getFirstname()).isEqualTo("firstname");
-        ;
     }
 }

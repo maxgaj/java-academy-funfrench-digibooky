@@ -59,6 +59,15 @@ public class BookController {
                     .collect(Collectors.toList());
     }
 
+    @ApiOperation(value = "Get filtered books by author name")
+    @GetMapping(params = {"authorName"}, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getBooksByAuthorName(@RequestParam String authorName) {
+        return bookRepository.findByAuthor(authorName).stream()
+                .map(bookMapper::toBookDto)
+                .collect(Collectors.toList());
+    }
+
     @ApiOperation(value = "Register new Book")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

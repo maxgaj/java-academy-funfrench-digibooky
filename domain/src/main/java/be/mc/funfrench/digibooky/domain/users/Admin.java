@@ -6,10 +6,12 @@ import java.util.List;
 public class Admin implements BaseUser {
     private String id;
     private String password;
+    private UserStatus status;
     private List<String> roles;
     private String firstName;
     private String lastName;
     private String email;
+
 
     public Admin(String password, String firstName, String lastName, String email) {
         this.password = password;
@@ -17,7 +19,8 @@ public class Admin implements BaseUser {
         this.lastName = lastName;
         this.email = email;
         this.roles = new ArrayList<>();
-        this.roles.add("ADMIN");
+        this.status = UserStatus.ADMIN;
+        this.roles.add(UserStatus.ADMIN.toString());
     }
 
     @Override
@@ -45,6 +48,10 @@ public class Admin implements BaseUser {
 
     public String getEmail() {
         return email;
+    }
+
+    public UserStatus getStatus() {
+        return status;
     }
 
     public void setId(String id) {
