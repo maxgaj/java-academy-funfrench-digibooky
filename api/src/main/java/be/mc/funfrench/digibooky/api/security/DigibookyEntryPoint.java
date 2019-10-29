@@ -21,6 +21,9 @@ public class DigibookyEntryPoint extends BasicAuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        String json = String.format("{\"message\": \"%s\"}", authException.getMessage());
+        response.getWriter().write(json);
     }
 }

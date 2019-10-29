@@ -30,7 +30,7 @@ public class DigibookyAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         BaseUser user = userRepository.findOneByIdAndPassword(authentication.getPrincipal().toString(), authentication.getCredentials().toString());
         if (user == null) {
-            throw new BadCredentialsException("The provided Id is not valid");
+            throw new BadCredentialsException("Those credentials are not valid");
         }
         return new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword(), rolesToGrantedAuthorities(user.getRoles()));
     }
