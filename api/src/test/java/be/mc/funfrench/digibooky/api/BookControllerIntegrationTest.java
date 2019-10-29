@@ -1,6 +1,8 @@
 package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.BookDto;
+import be.mc.funfrench.digibooky.api.dtos.LibrarianDto;
+import be.mc.funfrench.digibooky.api.dtos.MemberDto;
 import be.mc.funfrench.digibooky.service.repositories.BookRepository;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -117,4 +120,12 @@ class BookControllerIntegrationTest {
                 .assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
+
+
+
+    @Test
+    void updateBook_whenGivenIdWithRightCredentials_thenStatusCodeIsOk() {
+        // TODO
+    }
+
 }
