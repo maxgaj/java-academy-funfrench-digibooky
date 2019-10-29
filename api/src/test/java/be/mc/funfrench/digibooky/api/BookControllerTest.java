@@ -38,11 +38,10 @@ class BookControllerTest {
 
     @Test
     void GivenABook_WhenDeleted_ThenSetTrueToIsDeleted() {
-        Book book= new Book.BookBuilder()
+        Book book = Book.BookBuilder.bookBuilder()
                 .withAuthorLastName("blabla")
                 .withIsbn13("11-11111-11-1")
                 .withTitle("testTitle")
-                .withId()
                 .build();
         bookRepository.persistNewBookToRepository(book);
 

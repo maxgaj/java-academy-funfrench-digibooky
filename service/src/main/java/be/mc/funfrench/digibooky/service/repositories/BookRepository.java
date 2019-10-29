@@ -22,61 +22,53 @@ public class BookRepository {
     private final Logger logger = LoggerFactory.getLogger(BookRepository.class);
 
     public BookRepository() {
-        Book book1 = new Book.BookBuilder()
+        Book book1 = Book.BookBuilder.bookBuilder()
                 .withAuthorFirstName("JK")
                 .withAuthorLastName("Rowling")
                 .withTitle("Harry Potter ")
                 .withIsbn13("12-12345-34-5")
-                .withId()
                 .build();
-        Book book2 = new Book.BookBuilder()
+        Book book2 = Book.BookBuilder.bookBuilder()
                 .withAuthorFirstName("Stephen")
                 .withAuthorLastName("King")
                 .withTitle("IT")
                 .withIsbn13("12-54321-65-5")
-                .withId()
                 .build();
-        Book book3 = new Book.BookBuilder()
+        Book book3 = Book.BookBuilder.bookBuilder()
                 .withAuthorFirstName("Stephen")
                 .withAuthorLastName("King")
                 .withTitle("The Dark Tower")
                 .withIsbn13("12-12123-34-5")
-                .withId()
                 .build();
-        Book book4 = new Book.BookBuilder()
+        Book book4 = Book.BookBuilder.bookBuilder()
                 .withAuthorFirstName("Stephen")
                 .withAuthorLastName("King")
                 .withTitle("The Long Walk")
                 .withIsbn13("98-76543-21-0")
-                .withId()
                 .build();
-        Book book5 = new Book.BookBuilder()
+        Book book5 = Book.BookBuilder.bookBuilder()
                 .withAuthorFirstName("Andrzej")
                 .withAuthorLastName("Sapkowski")
                 .withTitle("The Withcer")
                 .withIsbn13("77-88888-99-0")
-                .withId()
                 .build();
-        Book book6 = new Book.BookBuilder()
+        Book book6 = Book.BookBuilder.bookBuilder()
                 .withAuthorFirstName("Jean-Paul")
                 .withAuthorLastName("Sartre")
                 .withTitle("Les mains sales")
                 .withIsbn13("00-00000-00-0")
-                .withId()
                 .build();
-        Book book7 = new Book.BookBuilder()
+        Book book7 = Book.BookBuilder.bookBuilder()
                 .withAuthorFirstName("Marc")
                 .withAuthorLastName("Levy")
                 .withTitle("Et si c'était vrai")
                 .withIsbn13("22-22222-22-2")
-                .withId()
                 .build();
-        Book book8 = new Book.BookBuilder()
+        Book book8 = Book.BookBuilder.bookBuilder()
                 .withAuthorFirstName("Bernard")
                 .withAuthorLastName("Werber")
                 .withTitle("The ants")
                 .withIsbn13("33-33333-33-3")
-                .withId()
                 .build();
         this.booksById = new ConcurrentHashMap<>();
         booksById.put(book1.getId(), book1);
