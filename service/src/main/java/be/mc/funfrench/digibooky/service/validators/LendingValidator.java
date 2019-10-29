@@ -26,7 +26,7 @@ public class LendingValidator {
 
     private void bookIsNotNull(Book book) {
         if(book == null){
-            throw new InvalidLendingException("The required book doesn't exist");
+            throw new InvalidLendingException("The required book doesn't exist or is not available");
         }
     }
 
@@ -37,7 +37,7 @@ public class LendingValidator {
     }
 
     private void bookIsNotAlreadyLent(Book book) {
-        if (lendingRepository.countByBook(book) > 0){
+        if (book.isLent()){
             throw new InvalidLendingException("The required book is already lent");
         }
     }

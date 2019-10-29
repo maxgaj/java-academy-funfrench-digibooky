@@ -170,6 +170,13 @@ public class BookRepository {
     private String createBookNotFoundMessage(String bookId) {
         return "No book was found for the given id: '" + bookId + "'.";
     }
+
+    public Book findOneOrNullAvailableBookByIsbn(String bookIsbn) {
+        return findByIsbn(bookIsbn).stream()
+                .filter(book -> !book.isLent())
+                .findFirst()
+                .orElse(null);
+    }
 }
 
 

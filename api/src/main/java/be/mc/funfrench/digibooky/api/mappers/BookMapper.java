@@ -24,7 +24,8 @@ public class BookMapper {
                 .withIsbn13(book.getIsbn13())
                 .withAuthorFirstName(book.getAuthorFirstName())
                 .withAuthorLastName(book.getAuthorLastName())
-                .withTitle(book.getTitle());
+                .withTitle(book.getTitle())
+                .withIsLent(book.isLent());
     }
 
     public Book createBookDtoToBook(CreateBookDto createBookDto) {
