@@ -25,7 +25,7 @@ class LibrarianControllerIntegrationTest {
     private ApplicationContext context;
 
     @Test
-    void registerLibrarian_givenValidCreateMemberDto_whenRegisterLibrarian_thenStatusCodeCreated() {
+    void registerLibrarian_givenValidCreateMemberDtoWithValidCredential_whenRegisterLibrarian_thenStatusCodeCreated() {
         String payload = "{\n" +
                 "\"password\": \"password\",\n" +
                 "\"firstName\": \"firstname\",\n" +
@@ -37,6 +37,7 @@ class LibrarianControllerIntegrationTest {
                 .given()
                 .baseUri("http://localhost")
                 .header("Content-Type", "application/json")
+                .header("Authorization", "Basic dXNlcjA6YWRtaW4=")
                 .port(PORT)
                 .body(payload)
                 .when()
