@@ -4,6 +4,7 @@ public class CreateBookDto {
     private String isbn13;
     private String title;
     private String authorLastName;
+    private String authorFirstName;
 
     public CreateBookDto withIsbn13(String isbn13) {
         this.isbn13 = isbn13;
@@ -18,6 +19,10 @@ public class CreateBookDto {
     public CreateBookDto withAuthorLastName(String authorLastName) {
         this.authorLastName = authorLastName;
         return this;
+    }
+
+    public String getAuthorFirstName() {
+        return authorFirstName;
     }
 
     public String getIsbn13() {

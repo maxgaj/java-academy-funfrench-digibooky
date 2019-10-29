@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class BookRepository {
 
     private final ConcurrentHashMap<String, Book> booksById;
     private final Logger logger = LoggerFactory.getLogger(BookRepository.class);
-    private final ConcurrentHashMap<String, Book> deletedBooks;
 
     public BookRepository() {
         Book book1 = new Book.BookBuilder()
@@ -87,22 +87,23 @@ public class BookRepository {
         booksById.put(book6.getId(), book6);
         booksById.put(book7.getId(), book7);
         booksById.put(book8.getId(), book8);
-        this.deletedBooks= new ConcurrentHashMap<>();
     }
 
     public Collection<Book> findAll() {
-        return booksById.values();
+        return booksById.values().stream()
+                .filter(book -> !book.isDeleted())
+                .collect(Collectors.toList());
     }
 
-    public boolean checkIsbnFormat(String isbn){
+    public boolean checkIsbnFormat(String isbn) {
         String regex = "^(?:ISBN(?:-10)?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})" +
                 "[- 0-9X]{13}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher= pattern.matcher(isbn);
+        Matcher matcher = pattern.matcher(isbn);
         return matcher.matches();
     }
 
-        public List<Book> findByIsbn(String isbn){
+    public List<Book> findByIsbn(String isbn) {
         String partOfTitleConvertedToRegex = JWildcard.wildcardToRegex(isbn);
         List<Book> returnedBooks = new ArrayList<>();
         Pattern pattern = Pattern.compile(partOfTitleConvertedToRegex);
@@ -128,6 +129,7 @@ public class BookRepository {
 
     /**
      * Search all books for the given author's part / full name.
+     *
      * @param authorName The author's firstname, lastname, or both with wildcard.
      * @return all books of the givens author
      */
@@ -145,27 +147,25 @@ public class BookRepository {
         return authorBooks;
     }
 
-    public void registerNewBookToRepository(Book book){
-        this.booksById.put(book.getIsbn13(), book);
+    public Book persistNewBookToRepository(Book book) {
+        return this.booksById.put(book.getId(), book);
     }
 
     /**
      * Find a book for the given id.
+     *
      * @param bookId The id of the searched book
      * @return book for the given id
      * @throws BookNotFoundException if the book was not found
      */
     public Book findBookById(String bookId) throws BookNotFoundException {
         Book book = booksById.get(bookId);
-        if(book == null) {
-            logger.error("No book was found for the given id: '" + bookId + "'.");
-            throw new BookNotFoundException("No book was found for the given id: '" + bookId + "'.");
-        }
-        return book;
-    }
-
-    public void deleteBookFromRepository(String id) {
-
+        if (book == null) {
+                logger.error("No book was found for the given id: '" + bookId + "'.");
+                throw new BookNotFoundException("No book was found for the given id: '" + bookId + "'.");
+        }return book;
     }
 }
+
+
 

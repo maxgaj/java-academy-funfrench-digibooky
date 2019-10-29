@@ -46,7 +46,7 @@ public class MemberController {
                 .collect(Collectors.toList());
     }
 
-    @ApiOperation(value= "Register a new Member")
+    @ApiOperation(value = "Register a new Member")
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberDto registerMember(@RequestBody CreateMemberDto createMemberDto) {
@@ -54,9 +54,7 @@ public class MemberController {
         memberValidator.validate(memberToCreate);
         return memberMapper.mapToDto(
                 memberRepository.persist(
-                        memberToCreate
-                )
-        );
+                        memberToCreate));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

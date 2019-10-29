@@ -5,8 +5,6 @@ import be.mc.funfrench.digibooky.domain.Book;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class BookMapperTest {
 
     @Test
@@ -19,7 +17,7 @@ class BookMapperTest {
                 .build();
         BookMapper bookMapper = new BookMapper();
 
-        BookDto bookDto = bookMapper.toBookDto(book);
+        BookDto bookDto = bookMapper.mapToBookDto(book);
 
         Assertions.assertEquals(book.getIsbn13(), bookDto.getIsbn13());
         Assertions.assertEquals(book.getAuthorFirstName(), bookDto.getAuthorFirstName());
@@ -39,7 +37,7 @@ class BookMapperTest {
 
         BookMapper bookMapper = new BookMapper();
 
-        Book bookReturned = bookMapper.toBook(bookDto);
+        Book bookReturned = bookMapper.mapToDomain(bookDto);
 
         Assertions.assertEquals(bookReturned.getIsbn13(), bookDto.getIsbn13());
         Assertions.assertEquals(bookReturned.getAuthorFirstName(), bookDto.getAuthorFirstName());

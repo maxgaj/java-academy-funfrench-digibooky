@@ -2,6 +2,7 @@ package be.mc.funfrench.digibooky.domain.users;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Member implements BaseUser {
     private String id;
@@ -18,6 +19,7 @@ public class Member implements BaseUser {
     private String city;
 
     private Member(MemberBuilder memberBuilder) {
+        this.id = UUID.randomUUID().toString();
         this.inss = memberBuilder.inss;
         this.lastname = memberBuilder.lastname;
         this.firstname = memberBuilder.firstname;
@@ -155,6 +157,4 @@ public class Member implements BaseUser {
             return new MemberBuilder();
         }
     }
-
-
 }

@@ -2,10 +2,12 @@ package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.BookDto;
 import be.mc.funfrench.digibooky.api.dtos.CreateBookDto;
+import be.mc.funfrench.digibooky.api.dtos.UpdateBookDto;
 import be.mc.funfrench.digibooky.api.mappers.BookMapper;
 import be.mc.funfrench.digibooky.infrastructure.BookNotFoundException;
 import be.mc.funfrench.digibooky.domain.Book;
 import be.mc.funfrench.digibooky.service.repositories.BookRepository;
+import be.mc.funfrench.digibooky.service.validators.BookValidator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,13 @@ public class BookController {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookValidator bookValidator;
 
     @Autowired
-    public BookController(BookRepository bookRepository, BookMapper bookMapper) {
+    public BookController(BookRepository bookRepository, BookMapper bookMapper, BookValidator bookValidator) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
+        this.bookValidator = bookValidator;
     }
 
     @ApiOperation(value = "Get all books from library")
@@ -42,7 +46,7 @@ public class BookController {
     public List<BookDto> getBooks() {
         return bookRepository.findAll()
                 .stream()
-                .map(bookMapper::toBookDto)
+                .map(bookMapper::mapToBookDto)
                 .collect(Collectors.toList());
     }
 
@@ -50,18 +54,18 @@ public class BookController {
     @GetMapping(params = {"isbn"}, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByIsbn(@RequestParam String isbn) {
-            return bookRepository.findByIsbn(isbn).stream()
-                    .map(bookMapper::toBookDto)
-                    .collect(Collectors.toList());
+        return bookRepository.findByIsbn(isbn).stream()
+                .map(bookMapper::mapToBookDto)
+                .collect(Collectors.toList());
     }
 
     @ApiOperation(value = "Get filtered books by title")
     @GetMapping(params = {"title"}, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByTitle(@RequestParam String title) {
-            return bookRepository.findByTitle(title).stream()
-                    .map(bookMapper::toBookDto)
-                    .collect(Collectors.toList());
+        return bookRepository.findByTitle(title).stream()
+                .map(bookMapper::mapToBookDto)
+                .collect(Collectors.toList());
     }
 
     @ApiOperation(value = "Get filtered books by author name")
@@ -69,7 +73,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByAuthorName(@RequestParam String authorName) {
         return bookRepository.findByAuthor(authorName).stream()
-                .map(bookMapper::toBookDto)
+                .map(bookMapper::mapToBookDto)
                 .collect(Collectors.toList());
     }
 
@@ -77,7 +81,7 @@ public class BookController {
     @GetMapping("/{bookId}")
     @ResponseStatus(HttpStatus.OK)
     public BookDto getBookById(@PathVariable String bookId) {
-        return bookMapper.toBookDto(bookRepository.findBookById(bookId));
+        return bookMapper.mapToBookDto(bookRepository.findBookById(bookId));
     }
 
     @ExceptionHandler(BookNotFoundException.class)
@@ -90,31 +94,29 @@ public class BookController {
     @PostMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
-    public void registerNewBook(@RequestParam String title, @RequestParam String isbn, @RequestParam String authorLastname) throws IllegalAccessError {
-        try{
-        CreateBookDto createBookDto= new CreateBookDto()
-                .withIsbn13(isbn)
-                .withAuthorLastName(authorLastname)
-                .withTitle(title);
+    public Book registerNewBook(@RequestBody CreateBookDto createBookDto) {
         Book bookToRegister = bookMapper.createBookDtoToBook(createBookDto);
-        bookRepository.registerNewBookToRepository(bookToRegister);
-        }catch(IllegalAccessError ex){
-            System.err.println("only a librarian can add a new book");
-        }//TODO NEED HELP TO USE THE LOGGER TO THROW EXCEPTION (alexis)
-    }
+        if (!bookValidator.validateBook(bookToRegister)) {
+            System.err.println("book infos not valid");
+        }return bookRepository.persistNewBookToRepository(bookToRegister);
+    }//TODO NEED HELP TO USE THE LOGGER TO THROW EXCEPTION (alexis)
+
 
     @ApiOperation(value = "Soft Delete Book")
-    @GetMapping(path="/{bookId}/delete", produces = APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
-    public void deleteBook(@PathVariable String bookId ) {
-        bookRepository.deleteBookFromRepository(bookId);
+    public void deleteBook(@PathVariable String bookId) {
+        Book book = bookRepository.findBookById(bookId);
+        book.setDeleted(true);
     }
 
     @ApiOperation(value = "Update Book")
-    @GetMapping(path="/{bookId}/update",produces = APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
-    public void UpdateBook(@PathVariable String bookId) {
+    public void updateBook(@PathVariable String bookId, @RequestBody UpdateBookDto updateBookDto) {
+        Book book = bookRepository.findBookById(bookId);
+        bookMapper.updateBookDtoToBook(book, updateBookDto);
     }
 }
