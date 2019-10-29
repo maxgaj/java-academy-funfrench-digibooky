@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
@@ -16,11 +17,12 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = TestApplication.class)
 class BookControllerIntegrationTest {
 
-    private final int PORT = 8080;
+    @LocalServerPort
+    private int PORT;
 
     @Test
     void getAllBooks_givenEmptyRepository_thenReturnNotEmptyListOfBooks() {

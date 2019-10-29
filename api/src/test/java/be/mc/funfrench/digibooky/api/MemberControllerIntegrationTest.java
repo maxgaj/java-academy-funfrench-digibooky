@@ -6,16 +6,19 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = TestApplication.class)
 class MemberControllerIntegrationTest {
 
     @Autowired
     private MemberController memberController;
-    private final int PORT = 8080;
+
+    @LocalServerPort
+    private int PORT;
 
     @Test
     void givenValidCreateMemberDto_whenRegisterMember_thenStatusCodeCreated() {
