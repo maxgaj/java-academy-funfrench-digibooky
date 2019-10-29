@@ -1,6 +1,7 @@
 package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.LendingDto;
+import be.mc.funfrench.digibooky.api.dtos.ReturnLendingDto;
 import be.mc.funfrench.digibooky.api.mappers.LendingMapper;
 import be.mc.funfrench.digibooky.domain.Book;
 import be.mc.funfrench.digibooky.domain.Lending;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Api(tags = "Lending Resource")
 @RestController
@@ -56,13 +60,27 @@ public class LendingController {
         lendingValidator.validate(book, member);
         Lending lending = new Lending(member, book);
         lendingRepository.persist(lending);
+        bookRepository.updateLentStatus(book.getId(), true);
         return lendingMapper.mapToDto(lending);
     }
-
 
     @ExceptionHandler({InvalidLendingException.class, BookNotFoundException.class})
     protected void invalidLendingCreationException(RuntimeException e, HttpServletResponse response) throws IOException {
         logger.error("Impossible to create lending: " + e.getMessage());
         response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
+    @ApiOperation("Return a book based on the Lending ID.")
+    @PostMapping(path="/book/{lendingId}")
+    @PreAuthorize("hasAuthority('MEMBER')")
+    public ReturnLendingDto returnABook(@PathVariable String lendingId) {
+         Lending lending = lendingRepository.deleteById(lendingId);
+         bookRepository.updateLentStatus(lending.getBook().getId(), false);
+         if(LocalDate.now().isAfter(lending.getDueDate())) {
+             return ((ReturnLendingDto)lendingMapper.mapToDto(lending))
+                     .withDelayMessage(DAYS.between(lending.getDueDate(), LocalDate.now()));
+         }
+         return ((ReturnLendingDto)lendingMapper.mapToDto(lending))
+                 .withoutDelayMessage();
     }
 }

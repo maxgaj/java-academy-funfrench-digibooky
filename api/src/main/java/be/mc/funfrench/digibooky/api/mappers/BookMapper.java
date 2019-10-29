@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class BookMapper {
 
     public Book mapToDomain(BookDto bookDto) {
-        return new Book.BookBuilder()
+        return Book.BookBuilder.bookBuilder()
                 .withIsbn13(bookDto.getIsbn13())
                 .withAuthorFirstName(bookDto.getAuthorFirstName())
                 .withAuthorLastName(bookDto.getAuthorLastName())
@@ -29,11 +29,10 @@ public class BookMapper {
     }
 
     public Book createBookDtoToBook(CreateBookDto createBookDto) {
-        return new Book.BookBuilder()
+        return Book.BookBuilder.bookBuilder()
                 .withIsbn13(createBookDto.getIsbn13())
                 .withAuthorLastName(createBookDto.getAuthorLastName())
                 .withTitle(createBookDto.getTitle())
-                .withId()
                 .build();
     }
 

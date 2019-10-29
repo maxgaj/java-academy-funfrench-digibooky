@@ -1,6 +1,7 @@
 package be.mc.funfrench.digibooky.api.mappers;
 
 import be.mc.funfrench.digibooky.api.dtos.LendingDto;
+import be.mc.funfrench.digibooky.api.dtos.ReturnLendingDto;
 import be.mc.funfrench.digibooky.domain.Lending;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

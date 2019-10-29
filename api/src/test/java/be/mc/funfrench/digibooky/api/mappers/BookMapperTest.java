@@ -9,7 +9,7 @@ class BookMapperTest {
 
     @Test
     void toDto_givenABook_whenMapToDto_thenReturnABookDto() {
-        Book book = new Book.BookBuilder()
+        Book book = Book.BookBuilder.bookBuilder()
                 .withIsbn13("9780733426094")
                 .withAuthorFirstName("Laura")
                 .withAuthorLastName("Depape")
