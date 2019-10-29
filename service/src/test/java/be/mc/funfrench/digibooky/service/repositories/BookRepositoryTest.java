@@ -154,11 +154,11 @@ class BookRepositoryTest {
     void deleteBook_GivenAnIdOfABook_WhenDeleted_ThenSetIsDeletedTrue() {
         BookRepository bookRepository= new BookRepository();
 
-        Book book= new Book.BookBuilder()
-                .withAuthorLastName("blabla")
-                .withIsbn13("11-11111-11-1")
-                .withTitle("testTitle")
-                .withId()
+        Book book = Book.BookBuilder.bookBuilder()
+                .withAuthorFirstName("JK")
+                .withAuthorLastName("Rowling")
+                .withTitle("Harry Potter ")
+                .withIsbn13("12-12345-34-5")
                 .build();
         bookRepository.persistNewBookToRepository(book);
         bookRepository.deleteBook(book.getId());
