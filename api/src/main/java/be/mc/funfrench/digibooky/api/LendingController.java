@@ -59,6 +59,7 @@ public class LendingController {
         return lendingMapper.mapToDto(lending);
     }
 
+    
 
 
     @ExceptionHandler(InvalidLendingException.class)
@@ -71,5 +72,11 @@ public class LendingController {
     protected void bookNotFoundException(InvalidLendingException e, HttpServletResponse response) throws IOException {
         logger.error("Impossible to create lending: " + e.getMessage());
         response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    @ApiOperation("Return a book based on the Lending ID.")
+    @PostMapping(path="/book/{bookId}/user/{userId}")
+    @PreAuthorize("hasAuthority('MEMBER')")
+    public LendingDto returnABook(@PathVariable String lendingId){
+        
+        return lendingMapper.mapToDto(lending);
     }
 }
