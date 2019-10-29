@@ -19,8 +19,8 @@ public class LibrarianValidator {
 
     public boolean validate(Librarian librarian) {
         hasLastName(librarian);
-        hasValidEmail(librarian);
         hasEmail(librarian);
+        hasValidEmail(librarian);
         hasUniqueEmail(librarian);
         return true;
     }

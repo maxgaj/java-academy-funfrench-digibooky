@@ -6,6 +6,7 @@ import be.mc.funfrench.digibooky.api.mappers.LibrarianMapper;
 import be.mc.funfrench.digibooky.domain.users.Librarian;
 import be.mc.funfrench.digibooky.service.repositories.LibrarianRepository;
 import be.mc.funfrench.digibooky.service.validators.LibrarianValidator;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Api(tags = "Librarian Resource")
 @RestController
 @RequestMapping(path = LibrarianController.LIBRARIAN_CONTROLLER_RESOURCE_URL)
 public class LibrarianController {
@@ -43,8 +45,10 @@ public class LibrarianController {
                 .collect(Collectors.toList());
     }
 
+    @ApiOperation(value = "Register a new Librarian")
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public LibrarianDto registerLibrarian(@RequestBody CreateLibrarianDto createLibrarianDto) {
         Librarian librarianToCreate = librarianMapper.mapToLibrarian(createLibrarianDto);
         librarianValidator.validate(librarianToCreate);
