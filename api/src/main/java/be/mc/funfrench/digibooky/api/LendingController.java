@@ -63,8 +63,6 @@ public class LendingController {
         return lendingMapper.mapToDto(lending);
     }
 
-    
-
     @ExceptionHandler({InvalidLendingException.class, BookNotFoundException.class})
     protected void invalidLendingCreationException(RuntimeException e, HttpServletResponse response) throws IOException {
         logger.error("Impossible to create lending: " + e.getMessage());
@@ -77,8 +75,10 @@ public class LendingController {
     public ReturnLendingDto returnABook(@PathVariable String lendingId) {
          Lending lending = lendingRepository.deleteById(lendingId);
          if(LocalDate.now().isAfter(lending.getDueDate())) {
-             return new ReturnLendingDto().withFeeMessage(DAYS.between(lending.getDueDate(), LocalDate.now())); //todo
+             return ((ReturnLendingDto)lendingMapper.mapToDto(lending))
+                     .withDelayMessage(DAYS.between(lending.getDueDate(), LocalDate.now()));
          }
-         return new ReturnLendingDto().withoutFeeMessage(); //todo
+         return ((ReturnLendingDto)lendingMapper.mapToDto(lending))
+                 .withoutDelayMessage();
     }
 }
