@@ -170,9 +170,18 @@ public class BookRepository {
                 .orElse(null);
     }
 
+    public void deleteBook(String id) {
+        Book book = findBookById(id);
+        book.setDeleted(true);
+    }
+
+
     public void updateLentStatus(String bookId, boolean isLent) {
         findBookById(bookId).setLent(isLent);
     }
+
+
+
 }
 
 

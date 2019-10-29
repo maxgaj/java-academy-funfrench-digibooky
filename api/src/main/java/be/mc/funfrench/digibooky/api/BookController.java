@@ -96,27 +96,27 @@ public class BookController {
     @PreAuthorize("hasAuthority('LIBRARIAN')")
     public Book registerNewBook(@RequestBody CreateBookDto createBookDto) {
         Book bookToRegister = bookMapper.createBookDtoToBook(createBookDto);
-        if (!bookValidator.validateBook(bookToRegister)) {
-            System.err.println("book infos not valid");
-        }return bookRepository.persistNewBookToRepository(bookToRegister);
-    }//TODO NEED HELP TO USE THE LOGGER TO THROW EXCEPTION (alexis)
-
+        if (!bookValidator.validateBook(bookToRegister) || !bookRepository.checkIsbnFormat(createBookDto.getIsbn13())) {
+            throw new IllegalArgumentException("a book must have valid data and a valid ISBN to be created");
+        }
+        return bookRepository.persistNewBookToRepository(bookToRegister);
+    }//TODO USE THE LOGGER
 
     @ApiOperation(value = "Soft Delete Book")
     @DeleteMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
     public void deleteBook(@PathVariable String bookId) {
-        Book book = bookRepository.findBookById(bookId);
-        book.setDeleted(true);
+        bookRepository.deleteBook(bookId);
     }
 
     @ApiOperation(value = "Update Book")
-    @PutMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
+    @PatchMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
     public void updateBook(@PathVariable String bookId, @RequestBody UpdateBookDto updateBookDto) {
         Book book = bookRepository.findBookById(bookId);
         bookMapper.updateBookDtoToBook(book, updateBookDto);
+
     }
 }

@@ -1,12 +1,8 @@
 package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.BookDto;
-import be.mc.funfrench.digibooky.service.repositories.BookRepository;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -47,15 +43,15 @@ class BookControllerIntegrationTest {
         BookDto[] booksReturned =
                 RestAssured
                         .given()
-                            .baseUri("http://localhost")
-                            .accept("application/json")
+                        .baseUri("http://localhost")
+                        .accept("application/json")
                         .when()
-                            .port(PORT)
-                            .get("/books?authorName=Sa*")
+                        .port(PORT)
+                        .get("/books?authorName=Sa*")
                         .then()
-                            .assertThat()
-                            .statusCode(HttpStatus.OK.value())
-                            .extract().as(BookDto[].class);
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract().as(BookDto[].class);
 
         assertThat(Arrays.stream(booksReturned)
                 .map(BookDto::getAuthorLastName)
@@ -119,4 +115,64 @@ class BookControllerIntegrationTest {
                 .assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
+
+//    @Test
+//    void registerNewBook_WhenGivenCreateDto_ThenPersistBookIntoRepository() {
+//        String payload = "{\n" +
+//                "\"isbn13\": \"12-12121-12-1\",\n" +
+//                "\t\"authorLastName\": \"Orwell\",\n" +
+//                "\t\"title\": \"1984\",\n" +
+//                "}";
+//
+//        Book bookReturned =
+//                RestAssured
+//                        .given()
+//                        .baseUri("http://localhost")
+//                        .header("Content-Type", "application/json")
+//                        .port(PORT)
+//                        .body(payload)
+//                        .when()
+//                        .post("/books")
+//                        .then()
+//                        .assertThat()
+//                        .statusCode(HttpStatus.CREATED.value())
+//                        .extract().as(Book.class);
+//
+//        System.out.println(bookReturned.getAuthorLastName());
+//        assertThat(bookReturned.getAuthorLastName().equals("Orwell"));
+//    } //TODO FINISH THE TEST
+//
+//    @Test
+//    void checkIsbnFormat_GivenDatasToCreateBook_WhenGivingIsbn_ThenCheckIsbnFormat() {
+//        String payload = "{\n" +
+//                "\"isbn13\": \"WRONGISBN\",\n" +
+//                "\t\"authorLastName\": \"Orwell\",\n" +
+//                "\t\"title\": \"1984\",\n" +
+//                "}";
+//
+//        Book book = RestAssured
+//                .given()
+//                .baseUri("http://localhost")
+//                .header("Content-Type", "application/json")
+//                .port(PORT)
+//                .body(payload)
+//                .when()
+//                .post("/books")
+//                .then()
+//                .assertThat()
+//                .statusCode(HttpStatus.BAD_REQUEST.value())
+//                .extract().as(Book.class);
+//
+//        //TODO assertThrows exception
+//    }
+//}
+
+
+
+    @Test
+    void updateBook_whenGivenIdWithRightCredentials_thenStatusCodeIsOk() {
+        // TODO
+    }
+
 }
+

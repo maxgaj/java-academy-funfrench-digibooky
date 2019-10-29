@@ -1,4 +1,4 @@
-package be.mc.funfrench.digibooky.api;//package be.mc.funfrench.digibooky.api;
+package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.MemberDto;
 import io.restassured.RestAssured;
@@ -46,7 +46,7 @@ class MemberControllerIntegrationTest {
                 .assertThat()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract().as(MemberDto.class);
-        
+
         Assertions.assertThat(memberDto.getFirstname()).isEqualTo("firstname");
     }
 

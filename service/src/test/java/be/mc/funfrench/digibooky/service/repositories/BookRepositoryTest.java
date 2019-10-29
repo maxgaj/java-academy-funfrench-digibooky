@@ -2,6 +2,7 @@ package be.mc.funfrench.digibooky.service.repositories;
 
 import be.mc.funfrench.digibooky.domain.Book;
 import be.mc.funfrench.digibooky.infrastructure.BookNotFoundException;
+import be.mc.funfrench.digibooky.service.validators.BookValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -149,7 +150,38 @@ class BookRepositoryTest {
         Assertions.assertEquals(booksReturned.size(),3);
     }
 
-//    @Test
+    @Test
+    void deleteBook_GivenAnIdOfABook_WhenDeleted_ThenSetIsDeletedTrue() {
+        BookRepository bookRepository= new BookRepository();
+
+        Book book = Book.BookBuilder.bookBuilder()
+                .withAuthorFirstName("JK")
+                .withAuthorLastName("Rowling")
+                .withTitle("Harry Potter ")
+                .withIsbn13("12-12345-34-5")
+                .build();
+        bookRepository.persistNewBookToRepository(book);
+        bookRepository.deleteBook(book.getId());
+        Assertions.assertTrue(book.isDeleted());
+    }
+
+    @Test
+    void checkIsbnFormat_GivenAWrongIsbn_ThenFalse() {
+        String isbn = "wrong";
+        Assertions.assertFalse(bookRepository.checkIsbnFormat(isbn));
+    }
+
+    @Test
+    void checkIsbnFormat_GivenAGoodIsbn_ThenTrue() {
+        String isbn="12-12312-12-3";
+        String isbn2="12-123-12-123";
+        String isbn3="121-2312-12-3";
+        Assertions.assertTrue(bookRepository.checkIsbnFormat(isbn));
+        Assertions.assertFalse(bookRepository.checkIsbnFormat(isbn2));
+        Assertions.assertTrue(bookRepository.checkIsbnFormat(isbn3));
+    }
+
+    //    @Test
 //    void GivenValidCreatedBookDto_RegisterBookToBookRepository() {
 //        BookRepository bookRepository = new BookRepository();
 //        Book newBook = new Book.BookBuilder()
@@ -186,4 +218,6 @@ class BookRepositoryTest {
 ////        bookRepository..(savedBook.getId(), updatedBook);
 //        Assertions.assertEquals("Tolkien", book.getAuthorFirstName());
 //    }
+
+
 }
