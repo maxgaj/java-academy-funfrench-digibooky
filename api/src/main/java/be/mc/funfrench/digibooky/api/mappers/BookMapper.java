@@ -36,7 +36,10 @@ public class BookMapper {
                 .build();
     }
 
-    public void updateBookDtoToBook(Book bookToUpdate, UpdateBookDto updateBookDto) {
-            //TODO map an updateBook into a given Book
+    public Book updateBookDtoToBook(Book book, UpdateBookDto updateBookDto) {
+            book.setTitle(updateBookDto.getTitle());
+            book.setAuthorFirstName(updateBookDto.getAuthorFirstName());
+            book.setAuthorLastName(updateBookDto.getAuthorLastName());
+            return book;
     }
 }

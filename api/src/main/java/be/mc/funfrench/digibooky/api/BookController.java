@@ -118,5 +118,6 @@ public class BookController {
     public void updateBook(@PathVariable String bookId, @RequestBody UpdateBookDto updateBookDto) {
         Book book = bookRepository.findBookById(bookId);
         bookMapper.updateBookDtoToBook(book, updateBookDto);
+
     }
 }
