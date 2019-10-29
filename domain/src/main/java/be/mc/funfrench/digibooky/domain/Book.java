@@ -13,7 +13,7 @@ public class Book {
     private boolean isDeleted;
 
     private Book(BookBuilder bookbuilder) {
-        this.id = bookbuilder.id;
+        this.id = UUID.randomUUID().toString();
         this.isbn13 = bookbuilder.isbn13;
         this.authorLastName = bookbuilder.authorLastName;
         this.authorFirstName = bookbuilder.authorFirstName;
@@ -60,14 +60,12 @@ public class Book {
 
     public static class BookBuilder {
 
-        private String id;
         private String isbn13;
         private String authorLastName;
         private String authorFirstName;
         private String title;
 
-        public BookBuilder() {
-        }
+        private BookBuilder() {}
 
         public static BookBuilder bookBuilder() {
             return new BookBuilder();
@@ -75,11 +73,6 @@ public class Book {
 
         public Book build() {
             return new Book(this);
-        }
-
-        public BookBuilder withId() {
-            this.id = UUID.randomUUID().toString();
-            return this;
         }
 
         public BookBuilder withIsbn13(String isbn13) {
