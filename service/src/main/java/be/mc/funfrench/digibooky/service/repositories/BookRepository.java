@@ -172,6 +172,12 @@ public class BookRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public void deleteBook(String id) {
+        Book book = findBookById(id);
+        book.setDeleted(true);
+    }
+
 }
 
 
