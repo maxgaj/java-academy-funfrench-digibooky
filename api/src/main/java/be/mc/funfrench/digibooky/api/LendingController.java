@@ -60,6 +60,7 @@ public class LendingController {
         lendingValidator.validate(book, member);
         Lending lending = new Lending(member, book);
         lendingRepository.persist(lending);
+        bookRepository.updateLentStatus(book.getId(), true);
         return lendingMapper.mapToDto(lending);
     }
 
@@ -74,7 +75,7 @@ public class LendingController {
     @PreAuthorize("hasAuthority('MEMBER')")
     public ReturnLendingDto returnABook(@PathVariable String lendingId) {
          Lending lending = lendingRepository.deleteById(lendingId);
-         lending.getBook().setLent(false);
+         bookRepository.updateLentStatus(lending.getBook().getId(), false);
          if(LocalDate.now().isAfter(lending.getDueDate())) {
              return ((ReturnLendingDto)lendingMapper.mapToDto(lending))
                      .withDelayMessage(DAYS.between(lending.getDueDate(), LocalDate.now()));

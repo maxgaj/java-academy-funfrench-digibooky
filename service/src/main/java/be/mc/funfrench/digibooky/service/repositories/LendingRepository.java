@@ -21,7 +21,6 @@ public class LendingRepository {
     }
 
     public Lending persist(Lending lending){
-        lending.getBook().setLent(true);
         lendingTable.put(lending.getId(), lending);
         return lending;
     }

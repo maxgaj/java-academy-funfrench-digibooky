@@ -177,6 +177,10 @@ public class BookRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public void updateLentStatus(String bookId, boolean isLent) {
+        findBookById(bookId).setLent(isLent);
+    }
 }
 
 
