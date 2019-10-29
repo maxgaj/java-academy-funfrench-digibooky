@@ -1,4 +1,4 @@
-package be.mc.funfrench.digibooky.api.security;
+package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.CreateLibrarianDto;
 import be.mc.funfrench.digibooky.api.dtos.LibrarianDto;
@@ -36,7 +36,7 @@ public class LibrarianController {
 
     @ApiOperation(value = "Get all Librarians")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('LIBRARIAN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<LibrarianDto> getAllLibrarians() {
         return librarianRepository.findAll().stream()
                 .map(librarian -> librarianMapper.mapToDto(librarian))
