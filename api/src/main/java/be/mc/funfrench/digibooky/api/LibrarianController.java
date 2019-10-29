@@ -36,7 +36,7 @@ public class LibrarianController {
 
     @ApiOperation(value = "Get all Librarians")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('LIBRARIAN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<LibrarianDto> getAllLibrarians() {
         return librarianRepository.findAll().stream()
                 .map(librarian -> librarianMapper.mapToDto(librarian))
