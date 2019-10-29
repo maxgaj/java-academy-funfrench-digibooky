@@ -47,6 +47,9 @@ public class MemberRepository {
     }
 
     public Member findOneOrNullById(String id) {
-        return findAll().stream().filter(member -> member.getId().equals(id)).findFirst().orElse(null);
+        return findAll().stream()
+                .filter(member -> member.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 }

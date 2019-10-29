@@ -5,18 +5,23 @@ import be.mc.funfrench.digibooky.api.mappers.LendingMapper;
 import be.mc.funfrench.digibooky.domain.Book;
 import be.mc.funfrench.digibooky.domain.Lending;
 import be.mc.funfrench.digibooky.domain.users.Member;
+import be.mc.funfrench.digibooky.infrastructure.BookNotFoundException;
+import be.mc.funfrench.digibooky.infrastructure.InvalidLendingException;
 import be.mc.funfrench.digibooky.service.repositories.BookRepository;
 import be.mc.funfrench.digibooky.service.repositories.LendingRepository;
 import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
 import be.mc.funfrench.digibooky.service.validators.LendingValidator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Api(tags = "Lending Resource")
 @RestController
@@ -24,6 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LendingController {
 
     public static final String LENDING_CONTROLLER_RESOURCE_URL = "/lendings";
+    private Logger logger = LoggerFactory.getLogger(LendingController.class);
+
+
     private MemberRepository memberRepository;
     private BookRepository bookRepository;
     private LendingRepository lendingRepository;
@@ -51,5 +59,17 @@ public class LendingController {
         return lendingMapper.mapToDto(lending);
     }
 
-    
+
+
+    @ExceptionHandler(InvalidLendingException.class)
+    protected void invalidLendingCreationException(InvalidLendingException e, HttpServletResponse response) throws IOException {
+        logger.error("Impossible to create lending: " + e.getMessage());
+        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
+    @ExceptionHandler(BookNotFoundException.class)
+    protected void bookNotFoundException(InvalidLendingException e, HttpServletResponse response) throws IOException {
+        logger.error("Impossible to create lending: " + e.getMessage());
+        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
 }
