@@ -8,6 +8,7 @@ import be.mc.funfrench.digibooky.domain.Lending;
 import be.mc.funfrench.digibooky.domain.users.Member;
 import be.mc.funfrench.digibooky.infrastructure.BookNotFoundException;
 import be.mc.funfrench.digibooky.infrastructure.InvalidLendingException;
+import be.mc.funfrench.digibooky.infrastructure.LendingNotFoundException;
 import be.mc.funfrench.digibooky.service.repositories.BookRepository;
 import be.mc.funfrench.digibooky.service.repositories.LendingRepository;
 import be.mc.funfrench.digibooky.service.repositories.MemberRepository;
@@ -32,7 +33,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @RequestMapping(path = LendingController.LENDING_CONTROLLER_RESOURCE_URL)
 public class LendingController {
 
-    public static final String LENDING_CONTROLLER_RESOURCE_URL = "/lendings";
+    static final String LENDING_CONTROLLER_RESOURCE_URL = "/lendings";
     private Logger logger = LoggerFactory.getLogger(LendingController.class);
 
 
@@ -43,7 +44,8 @@ public class LendingController {
     private LendingMapper lendingMapper;
 
     @Autowired
-    public LendingController(MemberRepository memberRepository, BookRepository bookRepository, LendingRepository lendingRepository, LendingValidator lendingValidator, LendingMapper lendingMapper) {
+    public LendingController(MemberRepository memberRepository, BookRepository bookRepository,
+                             LendingRepository lendingRepository, LendingValidator lendingValidator, LendingMapper lendingMapper) {
         this.memberRepository = memberRepository;
         this.bookRepository = bookRepository;
         this.lendingValidator = lendingValidator;
@@ -82,5 +84,10 @@ public class LendingController {
          }
          return ((ReturnLendingDto)lendingMapper.mapToDto(lending))
                  .withoutDelayMessage();
+    }
+
+    @ExceptionHandler(LendingNotFoundException.class)
+    protected void lendingNotFoundException(LendingNotFoundException e, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 }
