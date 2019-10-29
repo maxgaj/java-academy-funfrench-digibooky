@@ -20,7 +20,7 @@ public class LendingMapper {
 
     public LendingDto mapToDto(Lending lending) {
         return new LendingDto()
-                .withBookDto(bookMapper.toBookDto(lending.getBook()))
+                .withBookDto(bookMapper.mapToBookDto(lending.getBook()))
                 .withId(lending.getId())
                 .withMemberDto(memberMapper.mapToDto(lending.getMember()))
                 .withDueDate(lending.getDueDate().toString());
