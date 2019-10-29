@@ -60,15 +60,8 @@ public class LendingController {
     }
 
 
-
-    @ExceptionHandler(InvalidLendingException.class)
-    protected void invalidLendingCreationException(InvalidLendingException e, HttpServletResponse response) throws IOException {
-        logger.error("Impossible to create lending: " + e.getMessage());
-        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-    }
-
-    @ExceptionHandler(BookNotFoundException.class)
-    protected void bookNotFoundException(InvalidLendingException e, HttpServletResponse response) throws IOException {
+    @ExceptionHandler({InvalidLendingException.class, BookNotFoundException.class})
+    protected void invalidLendingCreationException(RuntimeException e, HttpServletResponse response) throws IOException {
         logger.error("Impossible to create lending: " + e.getMessage());
         response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }

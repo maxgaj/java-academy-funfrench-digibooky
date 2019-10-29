@@ -9,6 +9,7 @@ public class Book {
     private final String authorLastName;
     private final String authorFirstName;
     private final String title;
+    private boolean isLent;
     private boolean isDeleted;
 
     private Book(BookBuilder bookbuilder) {
@@ -17,7 +18,8 @@ public class Book {
         this.authorLastName = bookbuilder.authorLastName;
         this.authorFirstName = bookbuilder.authorFirstName;
         this.title = bookbuilder.title;
-        this.isDeleted=false;
+        this.isLent = false;
+        this.isDeleted = false;
     }
 
     public String getId() {
@@ -39,6 +41,8 @@ public class Book {
     public String getTitle() {
         return title;
     }
+
+    public boolean isLent() { return isLent; }
 
     public boolean isDeleted() {
         return isDeleted;

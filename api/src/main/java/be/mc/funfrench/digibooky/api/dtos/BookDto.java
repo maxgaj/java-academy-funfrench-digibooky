@@ -21,6 +21,9 @@ public class BookDto {
     @ApiModelProperty(notes = "The title of the book")
     private String title;
 
+    @ApiModelProperty(notes = "true if the book is already lent")
+    private boolean isLent;
+
     public String getId() {
         return id;
     }
@@ -63,6 +66,15 @@ public class BookDto {
 
     public BookDto withTitle(String title) {
         this.title = title;
+        return this;
+    }
+
+    public boolean getIsLent() {
+        return isLent;
+    }
+
+    public BookDto withIsLent(boolean isLent) {
+        this.isLent = isLent;
         return this;
     }
 }
