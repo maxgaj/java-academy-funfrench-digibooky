@@ -44,6 +44,10 @@ public class Book {
 
     public boolean isLent() { return isLent; }
 
+    public void setLent(boolean lent) {
+        isLent = lent;
+    }
+
     public boolean isDeleted() {
         return isDeleted;
     }

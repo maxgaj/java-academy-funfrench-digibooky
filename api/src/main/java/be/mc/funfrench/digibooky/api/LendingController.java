@@ -48,11 +48,11 @@ public class LendingController {
     }
 
     @ApiOperation("Creates a new lending based on a User ID and a Book ID")
-    @PostMapping(path="/book/{bookId}/user/{userId}")
+    @PostMapping(path="/book/{bookIsbn}/user/{userId}")
     @PreAuthorize("hasAuthority('MEMBER')")
-    public LendingDto createLending(@PathVariable String bookId, @PathVariable String userId){
+    public LendingDto createLending(@PathVariable String bookIsbn, @PathVariable String userId){
         Member member = memberRepository.findOneOrNullById(userId);
-        Book book = bookRepository.findBookById(bookId);
+        Book book = bookRepository.findOneOrNullAvailableBookByIsbn(bookIsbn);
         lendingValidator.validate(book, member);
         Lending lending = new Lending(member, book);
         lendingRepository.persist(lending);

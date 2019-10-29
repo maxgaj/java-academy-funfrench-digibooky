@@ -165,6 +165,13 @@ public class BookRepository {
                 throw new BookNotFoundException("No book was found for the given id: '" + bookId + "'.");
         }return book;
     }
+
+    public Book findOneOrNullAvailableBookByIsbn(String bookIsbn) {
+        return findByIsbn(bookIsbn).stream()
+                .filter(book -> !book.isLent())
+                .findFirst()
+                .orElse(null);
+    }
 }
 
 
