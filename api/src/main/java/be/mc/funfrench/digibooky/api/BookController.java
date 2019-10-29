@@ -111,11 +111,12 @@ public class BookController {
     }
 
     @ApiOperation(value = "Update Book")
-    @PutMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
+    @PatchMapping(path = "/{bookId}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('LIBRARIAN')")
     public void updateBook(@PathVariable String bookId, @RequestBody UpdateBookDto updateBookDto) {
         Book book = bookRepository.findBookById(bookId);
         bookMapper.updateBookDtoToBook(book, updateBookDto);
+
     }
 }

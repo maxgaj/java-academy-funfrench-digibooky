@@ -1,18 +1,8 @@
 package be.mc.funfrench.digibooky.api;
 
 import be.mc.funfrench.digibooky.api.dtos.BookDto;
-import be.mc.funfrench.digibooky.api.dtos.CreateBookDto;
-import be.mc.funfrench.digibooky.api.dtos.CreateMemberDto;
-import be.mc.funfrench.digibooky.api.mappers.BookMapper;
-import be.mc.funfrench.digibooky.domain.Book;
-import be.mc.funfrench.digibooky.service.repositories.BookRepository;
-import be.mc.funfrench.digibooky.service.validators.BookValidator;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -175,4 +165,14 @@ class BookControllerIntegrationTest {
 //
 //        //TODO assertThrows exception
 //    }
+//}
+
+
+
+    @Test
+    void updateBook_whenGivenIdWithRightCredentials_thenStatusCodeIsOk() {
+        // TODO
+    }
+
 }
+

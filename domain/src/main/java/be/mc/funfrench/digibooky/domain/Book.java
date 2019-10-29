@@ -6,9 +6,9 @@ public class Book {
 
     private final String id;
     private final String isbn13;
-    private final String authorLastName;
-    private final String authorFirstName;
-    private final String title;
+    private String authorLastName;
+    private String authorFirstName;
+    private String title;
     private boolean isLent;
     private boolean isDeleted;
 
@@ -42,10 +42,23 @@ public class Book {
         return title;
     }
 
+
     public boolean isLent() { return isLent; }
 
     public void setLent(boolean lent) {
         isLent = lent;
+    }
+
+    public void setAuthorLastName(String authorLastName) {
+        this.authorLastName = authorLastName;
+    }
+
+    public void setAuthorFirstName(String authorFirstName) {
+        this.authorFirstName = authorFirstName;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public boolean isDeleted() {
@@ -55,6 +68,8 @@ public class Book {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
+
 
     //-----------------------------------------------------------------------------------------------------------------
 
